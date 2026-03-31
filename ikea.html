@@ -7,10 +7,9 @@
   <link rel="stylesheet" href="project.css" />
   <style>
     .project-hero { background: #EDD8D0; color: var(--charcoal); }
-    .visual-1 { background: #E0C8BE; }
-    .visual-2 { background: #D4B8AE; }
-    .visual-3 { background: #EDD8D0; }
-    .visual-4 { background: #F5E4DC; }
+    .project-hero .project-category { color: #8A6A60; }
+    .vis-block { width:100%; display:block; overflow:hidden; }
+    .vis-block svg { display:block; width:100%; height:auto; }
   </style>
 </head>
 <body>
@@ -30,7 +29,6 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="project-hero">
     <div class="project-hero-content">
       <p class="project-category">Campaign</p>
@@ -42,7 +40,6 @@
     </div>
   </section>
 
-  <!-- Overview -->
   <section class="project-overview">
     <dl class="overview-meta reveal">
       <dt>Role</dt>
@@ -55,76 +52,186 @@
     <div class="overview-text">
       <h3 class="reveal">"Every one-room apartment is a dream in progress."</h3>
       <p class="reveal">Young Koreans in their 20s are increasingly living alone in small studio apartments — 원룸, "one-rooms." These spaces are simultaneously the most constrained and the most personal places they inhabit. A campaign built for this generation shouldn't sell furniture; it should sell transformation.</p>
-      <p class="reveal" style="transition-delay:0.1s">Room for Dreams repositions IKEA as a partner in that transformation. The campaign follows three real-feeling characters as they reshape their 원룸 into a reflection of who they want to become: the late-night designer with a mood board wall, the budding home cook who turned a corner into a kitchen stage, the reader who turned a window alcove into their whole world.</p>
-      <p class="reveal" style="transition-delay:0.2s">Visuals were generated with Midjourney and animated with Runway ML, capturing the tactile warmth of lived-in spaces while maintaining IKEA's characteristic accessibility.</p>
+      <p class="reveal" style="transition-delay:0.1s">Room for Dreams repositions IKEA as a partner in that transformation. Three real-feeling characters reshape their 원룸 into a reflection of who they want to become. Visuals were generated with Midjourney and animated with Runway ML, capturing the tactile warmth of lived-in spaces.</p>
     </div>
   </section>
 
-  <!-- Main Visual -->
-  <div class="visual-full visual-1 reveal">
-    <p class="visual-label">Campaign Mood Board</p>
+  <!-- Campaign Key Visual: Room Interior -->
+  <div class="vis-block reveal" style="background:#E0C8BE">
+    <svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="roomfloor" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#D4B8AE"/>
+          <stop offset="100%" stop-color="#C8ACA0"/>
+        </linearGradient>
+        <linearGradient id="roomwall" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#EDD8D0"/>
+          <stop offset="100%" stop-color="#E4CEC6"/>
+        </linearGradient>
+        <linearGradient id="windowlight" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFF8F0" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#EDD8D0" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- Back wall -->
+      <rect width="1200" height="675" fill="url(#roomwall)"/>
+      <!-- Floor perspective -->
+      <polygon points="0,580 1200,580 1200,675 0,675" fill="url(#roomfloor)"/>
+      <!-- Floor meeting wall line -->
+      <line x1="0" y1="580" x2="1200" y2="580" stroke="#C8ACA0" stroke-width="1.5" opacity="0.4"/>
+
+      <!-- Window — left wall -->
+      <rect x="60" y="80" width="240" height="320" rx="2" fill="#F5E8DC" stroke="#C8ACA0" stroke-width="1.5"/>
+      <!-- Window panes -->
+      <line x1="180" y1="80" x2="180" y2="400" stroke="#C8ACA0" stroke-width="1" opacity="0.6"/>
+      <line x1="60" y1="240" x2="300" y2="240" stroke="#C8ACA0" stroke-width="1" opacity="0.6"/>
+      <!-- Window light beam -->
+      <polygon points="60,80 300,80 450,580 0,580" fill="url(#windowlight)" opacity="0.35"/>
+      <!-- Curtain -->
+      <path d="M60,80 Q75,160 65,320 Q58,400 60,400" fill="none" stroke="#D4B8AE" stroke-width="12" stroke-linecap="round" opacity="0.6"/>
+      <path d="M300,80 Q285,160 295,320 Q302,400 300,400" fill="none" stroke="#D4B8AE" stroke-width="12" stroke-linecap="round" opacity="0.6"/>
+
+      <!-- Desk (right side) -->
+      <rect x="700" y="380" width="420" height="14" rx="2" fill="#C4A882" opacity="0.8"/>
+      <rect x="700" y="394" width="14" height="186" rx="2" fill="#B89870" opacity="0.7"/>
+      <rect x="1106" y="394" width="14" height="186" rx="2" fill="#B89870" opacity="0.7"/>
+      <!-- Monitor on desk -->
+      <rect x="780" y="240" width="240" height="140" rx="3" fill="#1A1714" opacity="0.85"/>
+      <rect x="786" y="246" width="228" height="128" rx="2" fill="#252018"/>
+      <!-- Screen glow -->
+      <rect x="786" y="246" width="228" height="128" rx="2" fill="#B0D0FF" opacity="0.06"/>
+      <!-- Monitor stand -->
+      <rect x="886" y="380" width="28" height="14" rx="1" fill="#1A1714" opacity="0.6"/>
+      <!-- Desk items -->
+      <rect x="720" y="340" width="56" height="40" rx="2" fill="#EDE0CC" opacity="0.7"/>
+      <rect x="722" y="342" width="52" height="36" rx="1" fill="#F5ECD8" opacity="0.8"/>
+      <!-- Small plant -->
+      <rect x="1060" y="330" width="14" height="50" rx="2" fill="#C4A882" opacity="0.6"/>
+      <ellipse cx="1067" cy="320" rx="24" ry="20" fill="#8A9870" opacity="0.5"/>
+      <ellipse cx="1052" cy="308" rx="16" ry="14" fill="#8A9870" opacity="0.45"/>
+      <ellipse cx="1082" cy="310" rx="18" ry="16" fill="#8A9070" opacity="0.4"/>
+
+      <!-- Mood board pinned to wall -->
+      <rect x="460" y="60" width="220" height="300" rx="2" fill="#F5ECD8" opacity="0.85" stroke="#C8ACA0" stroke-width="1"/>
+      <!-- Mini prints on moodboard -->
+      <rect x="476" y="80" width="80" height="60" rx="1" fill="#EDD8D0" opacity="0.8"/>
+      <rect x="570" y="80" width="92" height="60" rx="1" fill="#D4C4A0" opacity="0.7"/>
+      <rect x="476" y="154" width="90" height="70" rx="1" fill="#D8D0CA" opacity="0.7"/>
+      <rect x="580" y="154" width="82" height="70" rx="1" fill="#C9A89A" opacity="0.5"/>
+      <rect x="476" y="238" width="186" height="50" rx="1" fill="#E4DED0" opacity="0.7"/>
+      <!-- Pin dots -->
+      <circle cx="570" cy="76" r="4" fill="#C9A89A" opacity="0.6"/>
+
+      <!-- Bookshelf — right top -->
+      <rect x="760" y="60" width="360" height="180" rx="2" fill="#C4A882" opacity="0.2" stroke="#C8ACA0" stroke-width="0.8"/>
+      <!-- Shelf dividers -->
+      <line x1="760" y1="150" x2="1120" y2="150" stroke="#C8ACA0" stroke-width="0.8" opacity="0.4"/>
+      <!-- Books on shelf row 1 -->
+      <rect x="776" y="70" width="20" height="74" rx="1" fill="#C9A89A" opacity="0.7"/>
+      <rect x="800" y="78" width="16" height="66" rx="1" fill="#C4A882" opacity="0.6"/>
+      <rect x="820" y="72" width="22" height="72" rx="1" fill="#8A8178" opacity="0.5"/>
+      <rect x="846" y="80" width="14" height="64" rx="1" fill="#D4B8AE" opacity="0.7"/>
+      <rect x="864" y="68" width="18" height="76" rx="1" fill="#A0A070" opacity="0.5"/>
+      <rect x="886" y="76" width="20" height="68" rx="1" fill="#C9A89A" opacity="0.6"/>
+      <!-- Books row 2 -->
+      <rect x="776" y="158" width="18" height="66" rx="1" fill="#C4A882" opacity="0.6"/>
+      <rect x="798" y="164" width="22" height="60" rx="1" fill="#8A8178" opacity="0.45"/>
+      <rect x="824" y="158" width="16" height="66" rx="1" fill="#D4C4A0" opacity="0.7"/>
+      <rect x="844" y="162" width="20" height="62" rx="1" fill="#C9A89A" opacity="0.55"/>
+
+      <!-- Campaign headline overlay -->
+      <text x="600" y="520" font-family="Georgia,serif" font-size="52" font-style="italic" fill="#6B5050" text-anchor="middle" opacity="0.75">Room for Dreams</text>
+      <text x="600" y="555" font-family="Arial" font-size="12" fill="#8A6A60" text-anchor="middle" letter-spacing="6" opacity="0.55">IKEA — 2024 CONCEPT CAMPAIGN</text>
+    </svg>
   </div>
 
-  <!-- Process -->
   <section class="project-process">
     <p class="section-label reveal">Process</p>
     <div class="process-grid">
       <div class="process-step reveal">
-        <p class="step-num">01</p>
-        <h4 class="step-title">Insight</h4>
-        <p class="step-desc">Interviewed five people living in Seoul studio apartments about their relationship with their space. Identified a recurring theme: the apartment feels "in progress" — always one purchase away from being "real."</p>
+        <p class="step-num">01</p><h4 class="step-title">Insight</h4>
+        <p class="step-desc">Interviewed five people living in Seoul studio apartments. Identified a recurring theme: the apartment feels "in progress" — always one purchase away from being "real."</p>
       </div>
       <div class="process-step reveal" style="transition-delay:0.08s">
-        <p class="step-num">02</p>
-        <h4 class="step-title">Platform</h4>
-        <p class="step-desc">Defined campaign platform: "Your room is already a dream — IKEA helps you see it." Three character stories built around specific aspirations, not furniture categories.</p>
+        <p class="step-num">02</p><h4 class="step-title">Platform</h4>
+        <p class="step-desc">"Your room is already a dream — IKEA helps you see it." Three character stories built around specific aspirations, not furniture categories.</p>
       </div>
       <div class="process-step reveal" style="transition-delay:0.16s">
-        <p class="step-num">03</p>
-        <h4 class="step-title">Visual Direction</h4>
-        <p class="step-desc">Developed AI visual prompts emphasising golden-hour window light, textured linen, and imperfect arrangements — the beauty of a space that is clearly lived in. Ran 150+ Midjourney iterations.</p>
+        <p class="step-num">03</p><h4 class="step-title">Visual Direction</h4>
+        <p class="step-desc">Developed AI visual prompts emphasising golden-hour window light, textured linen, and imperfect arrangements. Ran 150+ Midjourney iterations.</p>
       </div>
       <div class="process-step reveal" style="transition-delay:0.24s">
-        <p class="step-num">04</p>
-        <h4 class="step-title">Motion & Story</h4>
-        <p class="step-desc">Storyboarded three 60-second film concepts for OTT and social. Each film begins in a grey, empty room and ends in the same space, transformed — using the same camera position to maximise the contrast.</p>
+        <p class="step-num">04</p><h4 class="step-title">Motion & Story</h4>
+        <p class="step-desc">Storyboarded three 60-second film concepts. Each film begins in a grey, empty room and ends in the same space, transformed — using the same camera position.</p>
       </div>
     </div>
   </section>
 
-  <!-- Deliverables -->
   <section class="project-deliverables">
     <p class="section-label reveal">Deliverables</p>
     <div class="deliverables-grid reveal">
-      <div class="visual-full visual-2" style="aspect-ratio:4/3">
-        <p class="visual-label">Campaign Key Visual</p>
+      <!-- Character story -->
+      <div class="vis-block" style="background:#E0C8BE">
+        <svg viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg">
+          <rect width="580" height="480" fill="#E0C8BE"/>
+          <text x="290" y="36" font-family="Arial" font-size="9" fill="#8A6A60" letter-spacing="2" text-anchor="middle" opacity="0.6">CHARACTER STORY — THE DESIGNER</text>
+          <!-- Mini room scene -->
+          <rect x="80" y="60" width="420" height="300" rx="2" fill="#EDD8D0"/>
+          <!-- Window light -->
+          <polygon points="80,60 180,60 240,360 80,360" fill="#FFF0E8" opacity="0.3"/>
+          <!-- Desk -->
+          <rect x="180" y="270" width="280" height="10" rx="1" fill="#C4A882" opacity="0.6"/>
+          <!-- Screen -->
+          <rect x="240" y="180" width="160" height="90" rx="2" fill="#1A1714" opacity="0.7"/>
+          <!-- Moodboard -->
+          <rect x="300" y="80" width="160" height="180" rx="1" fill="#F5ECD8" opacity="0.8"/>
+          <!-- Character: person at desk (silhouette) -->
+          <circle cx="220" cy="215" r="20" fill="#6B5050" opacity="0.4"/>
+          <rect x="208" y="235" width="24" height="35" rx="4" fill="#6B5050" opacity="0.35"/>
+          <!-- Tagline -->
+          <text x="290" y="400" font-family="Georgia,serif" font-size="18" font-style="italic" fill="#6B5050" text-anchor="middle" opacity="0.7">She designs at midnight.</text>
+          <text x="290" y="424" font-family="Georgia,serif" font-size="18" font-style="italic" fill="#C9A89A" text-anchor="middle" opacity="0.8">This is her studio.</text>
+          <text x="290" y="458" font-family="Arial" font-size="9" fill="#8A6A60" text-anchor="middle" letter-spacing="3" opacity="0.5">ROOM FOR DREAMS — IKEA</text>
+        </svg>
       </div>
-      <div class="visual-full visual-3" style="aspect-ratio:4/3">
-        <p class="visual-label">Character Story — The Designer</p>
-      </div>
-    </div>
-    <div class="deliverables-grid reveal" style="margin-top:24px; transition-delay:0.1s">
-      <div class="visual-full visual-4" style="aspect-ratio:4/3">
-        <p class="visual-label">AI Stills — Storyboard</p>
-      </div>
-      <div class="visual-full visual-1" style="aspect-ratio:4/3">
-        <p class="visual-label">Social Campaign Assets</p>
+      <!-- Storyboard -->
+      <div class="vis-block" style="background:#EDD8D0">
+        <svg viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg">
+          <rect width="580" height="480" fill="#EDD8D0"/>
+          <text x="290" y="36" font-family="Arial" font-size="9" fill="#8A6A60" letter-spacing="2" text-anchor="middle" opacity="0.6">STORYBOARD — 60s FILM</text>
+          <!-- 6 storyboard frames -->
+          <g>
+            <rect x="40" y="60" width="148" height="100" rx="2" fill="#E0C8BE" stroke="#C9A89A" stroke-width="0.8"/>
+            <rect x="216" y="60" width="148" height="100" rx="2" fill="#E0C8BE" stroke="#C9A89A" stroke-width="0.8"/>
+            <rect x="392" y="60" width="148" height="100" rx="2" fill="#E0C8BE" stroke="#C9A89A" stroke-width="0.8"/>
+            <rect x="40" y="185" width="148" height="100" rx="2" fill="#E0C8BE" stroke="#C9A89A" stroke-width="0.8"/>
+            <rect x="216" y="185" width="148" height="100" rx="2" fill="#E0C8BE" stroke="#C9A89A" stroke-width="0.8"/>
+            <rect x="392" y="185" width="148" height="100" rx="2" fill="#E0C8BE" stroke="#C9A89A" stroke-width="0.8"/>
+            <!-- Frame contents (abstract room shapes) -->
+            <rect x="60" y="100" width="108" height="4" rx="2" fill="#C9A89A" opacity="0.3"/><!-- floor line -->
+            <rect x="60" y="80" width="4" height="24" rx="1" fill="#C9A89A" opacity="0.3"/><!-- wall-->
+            <rect x="236" y="90" width="108" height="4" rx="2" fill="#C9A89A" opacity="0.3"/>
+            <rect x="412" y="85" width="108" height="4" rx="2" fill="#C9A89A" opacity="0.3"/>
+            <!-- 00:00 → 01:00 -->
+            <text x="114" y="174" font-family="Arial" font-size="7" fill="#8A6A60" text-anchor="middle" opacity="0.6">00:00 Empty room</text>
+            <text x="290" y="174" font-family="Arial" font-size="7" fill="#8A6A60" text-anchor="middle" opacity="0.6">00:15 First light</text>
+            <text x="466" y="174" font-family="Arial" font-size="7" fill="#8A6A60" text-anchor="middle" opacity="0.6">00:28 Items arrive</text>
+            <text x="114" y="299" font-family="Arial" font-size="7" fill="#8A6A60" text-anchor="middle" opacity="0.6">00:38 Room taking shape</text>
+            <text x="290" y="299" font-family="Arial" font-size="7" fill="#8A6A60" text-anchor="middle" opacity="0.6">00:50 Space transformed</text>
+            <text x="466" y="299" font-family="Arial" font-size="7" fill="#C9A89A" text-anchor="middle" opacity="0.8">01:00 Her dream</text>
+          </g>
+          <text x="290" y="380" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#8A6A60" text-anchor="middle" opacity="0.6">Same camera. Same room. Different life.</text>
+        </svg>
       </div>
     </div>
   </section>
 
-  <!-- Project Navigation -->
   <nav class="project-nav">
-    <a href="fujifilm.html">
-      <span>←</span>
-      <span class="nav-project-name">FUJIFILM Campaign</span>
-    </a>
+    <a href="fujifilm.html"><span>←</span><span class="nav-project-name">FUJIFILM Campaign</span></a>
     <a href="medical.html" style="text-align:right">
-      <span class="nav-project-name">Medical Beauty Device</span>
-      <span>→</span>
+      <span class="nav-project-name">Medical Beauty Device</span><span>→</span>
     </a>
   </nav>
-
   <script src="project.js"></script>
 </body>
 </html>

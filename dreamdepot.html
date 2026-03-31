@@ -7,10 +7,9 @@
   <link rel="stylesheet" href="project.css" />
   <style>
     .project-hero { background: #EDE0CC; color: var(--charcoal); }
-    .visual-1 { background: #E0D0B4; }
-    .visual-2 { background: #D4C4A0; }
-    .visual-3 { background: #EDE0CC; }
-    .visual-4 { background: #F5ECD8; }
+    .project-hero .project-category { color: #8A7A60; }
+    .vis-block { width:100%; display:block; overflow:hidden; }
+    .vis-block svg { display:block; width:100%; height:auto; }
   </style>
 </head>
 <body>
@@ -30,7 +29,6 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="project-hero">
     <div class="project-hero-content">
       <p class="project-category">Branding</p>
@@ -42,7 +40,6 @@
     </div>
   </section>
 
-  <!-- Overview -->
   <section class="project-overview">
     <dl class="overview-meta reveal">
       <dt>Role</dt>
@@ -56,75 +53,170 @@
       <h3 class="reveal">"Stationery that carries dreams, not just ink."</h3>
       <p class="reveal">DreamDepot is a stationery brand identity built on the idea that the tools you use to write and create should feel aspirational — not just functional. The brand targets young adults who treat their planners, notebooks, and pens as personal statements.</p>
       <p class="reveal" style="transition-delay:0.1s">The logotype was custom-drawn: a wordmark balancing structured geometry with organic curves, evoking both precision and imagination. The colour palette — warm gold, cream, and soft terracotta — was chosen to feel at home on a desk without sacrificing distinctiveness on a shelf.</p>
-      <p class="reveal" style="transition-delay:0.2s">The packaging system uses kraft paper as a base material, layered with blind embossing and foil details that communicate quality without shouting luxury. The result feels earned, not ostentatious.</p>
     </div>
   </section>
 
-  <!-- Main Visual -->
-  <div class="visual-full visual-1 reveal">
-    <p class="visual-label">Brand Identity Overview</p>
+  <!-- Brand Identity Overview -->
+  <div class="vis-block reveal" style="background:#E0D0B4">
+    <svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="675" fill="#E0D0B4"/>
+      <!-- Background elements -->
+      <circle cx="100" cy="100" r="180" fill="#EDE0CC" opacity="0.4"/>
+      <circle cx="1100" cy="600" r="200" fill="#D4C4A0" opacity="0.3"/>
+      <text x="600" y="44" font-family="Arial" font-size="10" fill="#8A7A60" letter-spacing="3" text-anchor="middle" opacity="0.6">BRAND IDENTITY OVERVIEW</text>
+
+      <!-- Logotype centrepiece -->
+      <text x="600" y="240" font-family="Georgia,serif" font-size="80" font-style="italic" fill="#6B5A40" text-anchor="middle" letter-spacing="2" opacity="0.9">Dream</text>
+      <text x="600" y="320" font-family="Georgia,serif" font-size="80" fill="#6B5A40" text-anchor="middle" letter-spacing="8" opacity="0.9">DEPOT</text>
+
+      <!-- Horizontal rule under wordmark -->
+      <line x1="300" y1="348" x2="900" y2="348" stroke="#8A7A60" stroke-width="0.8" opacity="0.4"/>
+
+      <!-- Tagline -->
+      <text x="600" y="376" font-family="Arial" font-size="11" fill="#8A7A60" text-anchor="middle" letter-spacing="5" opacity="0.6">STATIONERY · EST. 2024 · SEOUL</text>
+
+      <!-- Colour swatches -->
+      <g transform="translate(280, 440)">
+        <rect x="0" y="0" width="80" height="80" rx="2" fill="#6B5A40"/>
+        <rect x="96" y="0" width="80" height="80" rx="2" fill="#C4A882"/>
+        <rect x="192" y="0" width="80" height="80" rx="2" fill="#EDE0CC"/>
+        <rect x="288" y="0" width="80" height="80" rx="2" fill="#C9A89A"/>
+        <rect x="384" y="0" width="80" height="80" rx="2" fill="#F5ECD8"/>
+        <text x="40" y="100" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" opacity="0.6">#6B5A40</text>
+        <text x="136" y="100" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" opacity="0.6">#C4A882</text>
+        <text x="232" y="100" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" opacity="0.6">#EDE0CC</text>
+        <text x="328" y="100" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" opacity="0.6">#C9A89A</text>
+        <text x="424" y="100" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" opacity="0.6">#F5ECD8</text>
+      </g>
+    </svg>
   </div>
 
-  <!-- Process -->
   <section class="project-process">
     <p class="section-label reveal">Process</p>
     <div class="process-grid">
       <div class="process-step reveal">
-        <p class="step-num">01</p>
-        <h4 class="step-title">Mood Research</h4>
+        <p class="step-num">01</p><h4 class="step-title">Mood Research</h4>
         <p class="step-desc">Gathered reference imagery spanning European stationery brands, Korean indie paper goods, and lifestyle photography. Established emotional tone: warm, considered, quietly ambitious.</p>
       </div>
       <div class="process-step reveal" style="transition-delay:0.08s">
-        <p class="step-num">02</p>
-        <h4 class="step-title">Logotype</h4>
-        <p class="step-desc">Explored 14 logotype directions across serif, sans-serif, and hybrid approaches. Final direction drew from Bodoni proportions with custom terminal modifications to soften the geometric rigidity.</p>
+        <p class="step-num">02</p><h4 class="step-title">Logotype</h4>
+        <p class="step-desc">Explored 14 logotype directions. Final direction drew from Bodoni proportions with custom terminal modifications to soften the geometric rigidity.</p>
       </div>
       <div class="process-step reveal" style="transition-delay:0.16s">
-        <p class="step-num">03</p>
-        <h4 class="step-title">Colour & Materials</h4>
+        <p class="step-num">03</p><h4 class="step-title">Colour & Materials</h4>
         <p class="step-desc">Material exploration with kraft paper, translucent vellum overlays, and foil stamp samples. Developed a two-tier packaging system: standard and gifting editions.</p>
       </div>
       <div class="process-step reveal" style="transition-delay:0.24s">
-        <p class="step-num">04</p>
-        <h4 class="step-title">Application</h4>
+        <p class="step-num">04</p><h4 class="step-title">Application</h4>
         <p class="step-desc">Applied identity across notebooks, pen packaging, canvas pouches, and brand collateral. Documented full brand guidelines including font pairings and tone of voice.</p>
       </div>
     </div>
   </section>
 
-  <!-- Deliverables -->
   <section class="project-deliverables">
     <p class="section-label reveal">Deliverables</p>
-    <div class="deliverables-grid asymmetric reveal">
-      <div class="visual-full visual-2" style="aspect-ratio:4/3">
-        <p class="visual-label">Logotype & Colour System</p>
+    <div class="deliverables-grid reveal">
+      <!-- Stationery flat lay -->
+      <div class="vis-block" style="background:#D4C4A0">
+        <svg viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg">
+          <rect width="580" height="480" fill="#D4C4A0"/>
+          <text x="290" y="36" font-family="Arial" font-size="9" fill="#8A7A60" letter-spacing="2" text-anchor="middle" opacity="0.6">STATIONERY FLAT LAY</text>
+          <!-- Notebook (top-down view, slight angle) -->
+          <g transform="rotate(-8, 290, 240)">
+            <rect x="120" y="70" width="200" height="260" rx="3" fill="#F5ECD8" stroke="#C4A882" stroke-width="1.5"/>
+            <!-- Spine -->
+            <rect x="120" y="70" width="18" height="260" rx="2" fill="#C4A882"/>
+            <!-- Lines on page -->
+            <line x1="158" y1="120" x2="300" y2="120" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+            <line x1="158" y1="138" x2="300" y2="138" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+            <line x1="158" y1="156" x2="300" y2="156" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+            <line x1="158" y1="174" x2="300" y2="174" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+            <line x1="158" y1="192" x2="300" y2="192" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+            <line x1="158" y1="210" x2="280" y2="210" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+            <!-- Cover logo area -->
+            <text x="218" y="290" font-family="Georgia,serif" font-size="14" font-style="italic" fill="#C4A882" text-anchor="middle">Dream</text>
+            <text x="218" y="308" font-family="Arial" font-size="10" fill="#C4A882" text-anchor="middle" letter-spacing="3">DEPOT</text>
+            <line x1="165" y1="315" x2="268" y2="315" stroke="#C4A882" stroke-width="0.6" opacity="0.5"/>
+          </g>
+          <!-- Pen (horizontal, slightly rotated) -->
+          <g transform="rotate(15, 290, 350)">
+            <rect x="150" y="380" width="240" height="12" rx="6" fill="#6B5A40"/>
+            <circle cx="390" cy="386" r="6" fill="#C4A882"/>
+            <rect x="386" y="381" width="12" height="10" rx="5" fill="#C4A882"/>
+          </g>
+          <!-- Small sticky/tab -->
+          <rect x="380" y="140" width="70" height="70" rx="1" fill="#EDD8D0" transform="rotate(6,380,140)"/>
+          <text x="415" y="180" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#C9A89A" text-anchor="middle">notes</text>
+        </svg>
       </div>
-      <div class="visual-full visual-3" style="aspect-ratio:4/3">
-        <p class="visual-label">Packaging Detail</p>
+      <!-- Packaging detail -->
+      <div class="vis-block" style="background:#EDE0CC">
+        <svg viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg">
+          <rect width="580" height="480" fill="#EDE0CC"/>
+          <text x="290" y="36" font-family="Arial" font-size="9" fill="#8A7A60" letter-spacing="2" text-anchor="middle" opacity="0.6">PACKAGING DETAIL</text>
+          <!-- Notebook packaging box -->
+          <g transform="translate(100, 70)">
+            <!-- Front face -->
+            <rect x="0" y="60" width="180" height="300" rx="2" fill="#F5ECD8" stroke="#C4A882" stroke-width="1"/>
+            <!-- Kraft band across middle -->
+            <rect x="0" y="160" width="180" height="80" fill="#D4C4A0"/>
+            <!-- Brand on kraft band -->
+            <text x="90" y="196" font-family="Georgia,serif" font-size="14" font-style="italic" fill="#6B5A40" text-anchor="middle">Dream</text>
+            <text x="90" y="214" font-family="Arial" font-size="9" fill="#6B5A40" text-anchor="middle" letter-spacing="3">DEPOT</text>
+            <!-- Foil-effect top bar -->
+            <rect x="0" y="60" width="180" height="24" rx="2" fill="#C4A882" opacity="0.7"/>
+            <!-- Gold foil star/mark -->
+            <circle cx="90" cy="72" r="7" fill="#EDE0CC" opacity="0.6"/>
+            <!-- Second box behind -->
+            <g transform="translate(200, 20)">
+              <rect x="0" y="60" width="160" height="280" rx="2" fill="#EDE8DC" stroke="#C4A882" stroke-width="0.8" opacity="0.7"/>
+              <rect x="0" y="140" width="160" height="72" fill="#D4C4A0" opacity="0.6"/>
+              <text x="80" y="180" font-family="Georgia,serif" font-size="12" font-style="italic" fill="#6B5A40" text-anchor="middle" opacity="0.7">Dream</text>
+              <text x="80" y="196" font-family="Arial" font-size="8" fill="#6B5A40" text-anchor="middle" letter-spacing="2" opacity="0.7">DEPOT</text>
+            </g>
+          </g>
+        </svg>
       </div>
     </div>
-    <div class="deliverables-grid reveal" style="margin-top:24px; transition-delay:0.1s">
-      <div class="visual-full visual-4" style="aspect-ratio:4/3">
-        <p class="visual-label">Stationery Mockups</p>
-      </div>
-      <div class="visual-full visual-1" style="aspect-ratio:4/3">
-        <p class="visual-label">Brand Application</p>
-      </div>
+    <!-- Brand assets full width -->
+    <div class="vis-block reveal" style="margin-top:20px; background:#F5ECD8">
+      <svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1200" height="360" fill="#F5ECD8"/>
+        <text x="600" y="36" font-family="Arial" font-size="10" fill="#8A7A60" letter-spacing="3" text-anchor="middle" opacity="0.5">BRAND APPLICATION</text>
+        <!-- Tote bag mockup -->
+        <g transform="translate(80, 60)">
+          <path d="M0,60 Q0,0 60,0 L180,0 Q240,0 240,60 L240,280 Q240,300 220,300 L20,300 Q0,300 0,280 Z" fill="#6B5A40"/>
+          <path d="M80,0 Q80,-40 120,-40 Q160,-40 160,0" fill="none" stroke="#C4A882" stroke-width="3"/>
+          <text x="120" y="170" font-family="Georgia,serif" font-size="18" font-style="italic" fill="#EDE0CC" text-anchor="middle">Dream</text>
+          <text x="120" y="192" font-family="Arial" font-size="11" fill="#C4A882" text-anchor="middle" letter-spacing="4">DEPOT</text>
+        </g>
+        <!-- Business card -->
+        <g transform="translate(420, 90)">
+          <rect x="0" y="0" width="300" height="175" rx="3" fill="#EDE0CC"/>
+          <rect x="0" y="0" width="300" height="48" rx="3" fill="#C4A882" opacity="0.3"/>
+          <text x="150" y="108" font-family="Georgia,serif" font-size="22" font-style="italic" fill="#6B5A40" text-anchor="middle">Dream</text>
+          <text x="150" y="130" font-family="Arial" font-size="13" fill="#6B5A40" text-anchor="middle" letter-spacing="5">DEPOT</text>
+          <line x1="60" y1="145" x2="240" y2="145" stroke="#C4A882" stroke-width="0.8"/>
+          <text x="150" y="160" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" letter-spacing="2" opacity="0.7">STATIONERY · SEOUL</text>
+        </g>
+        <!-- Sticker / stamp -->
+        <g transform="translate(820, 80)">
+          <circle cx="130" cy="100" r="90" fill="none" stroke="#C4A882" stroke-width="1.5"/>
+          <circle cx="130" cy="100" r="78" fill="none" stroke="#C4A882" stroke-width="0.6" stroke-dasharray="3,3"/>
+          <text x="130" y="88" font-family="Georgia,serif" font-size="20" font-style="italic" fill="#6B5A40" text-anchor="middle">Dream</text>
+          <text x="130" y="114" font-family="Arial" font-size="13" fill="#6B5A40" text-anchor="middle" letter-spacing="4">DEPOT</text>
+          <text x="130" y="160" font-family="Arial" font-size="8" fill="#8A7A60" text-anchor="middle" letter-spacing="3" opacity="0.6">— EST. 2024 —</text>
+        </g>
+      </svg>
     </div>
   </section>
 
-  <!-- Project Navigation -->
   <nav class="project-nav">
-    <a href="mirco.html">
-      <span>←</span>
-      <span class="nav-project-name">MIRCO</span>
-    </a>
+    <a href="mirco.html"><span>←</span><span class="nav-project-name">MIRCO</span></a>
     <a href="fujifilm.html" style="text-align:right">
-      <span class="nav-project-name">FUJIFILM Campaign</span>
-      <span>→</span>
+      <span class="nav-project-name">FUJIFILM Campaign</span><span>→</span>
     </a>
   </nav>
-
   <script src="project.js"></script>
 </body>
 </html>

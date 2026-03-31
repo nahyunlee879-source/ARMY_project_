@@ -384,12 +384,25 @@
     .works-list {
       border-top: 1px solid rgba(26,23,20,0.12);
     }
+    /* Work item thumbnail */
+    .work-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 2px;
+      overflow: hidden;
+      flex-shrink: 0;
+      opacity: 0.7;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .work-thumb svg { width: 100%; height: 100%; display: block; }
+    .work-item:hover .work-thumb { opacity: 1; transform: scale(1.04); }
+
     .work-item {
       display: grid;
-      grid-template-columns: 56px 1fr 220px 52px;
+      grid-template-columns: 48px 64px 1fr 200px 52px;
       align-items: center;
       gap: 24px;
-      padding: 26px 0;
+      padding: 22px 0;
       border-bottom: 1px solid rgba(26,23,20,0.08);
       text-decoration: none;
       color: inherit;
@@ -620,14 +633,14 @@
     @media (max-width: 960px) {
       :root { --pad: 32px; }
       #about, #identity { grid-template-columns: 1fr; gap: 48px; }
-      .work-item { grid-template-columns: 44px 1fr 40px; }
+      .work-item { grid-template-columns: 40px 52px 1fr 40px; }
       .work-cat { display: none; }
     }
     @media (max-width: 600px) {
       :root { --pad: 20px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
-      .work-item { grid-template-columns: 36px 1fr; }
+      .work-item { grid-template-columns: 32px 44px 1fr; }
       .work-year { display: none; }
       .works-header { flex-direction: column; align-items: flex-start; }
       body { cursor: auto; }
@@ -732,6 +745,15 @@
          data-color="#D4CDB8"
          data-label="SLOWEAT" data-tag="Packaging · Branding">
         <span class="work-num">01</span>
+        <div class="work-thumb">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" fill="#D4CDB8"/>
+            <polygon points="10,22 28,12 28,44 10,54" fill="#E8E2D4"/>
+            <polygon points="10,22 28,12 46,22 28,32" fill="#F0EBE0"/>
+            <polygon points="28,12 46,22 46,54 28,44" fill="#C4BEB0"/>
+            <ellipse cx="19" cy="37" rx="6" ry="3" fill="#8A9070" opacity="0.5" transform="rotate(-20,19,37)"/>
+          </svg>
+        </div>
         <span class="work-name">SLOWEAT</span>
         <span class="work-cat">Packaging · Branding</span>
         <span class="work-year">2024</span>
@@ -741,6 +763,16 @@
          data-color="#8A8178"
          data-label="MIRCO" data-tag="Branding">
         <span class="work-num">02</span>
+        <div class="work-thumb">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" fill="#8A8178"/>
+            <circle cx="28" cy="28" r="14" fill="#9A9590"/>
+            <circle cx="28" cy="28" r="9" fill="#7A7570"/>
+            <circle cx="22" cy="25" r="2.5" fill="rgba(253,250,247,0.7)"/>
+            <circle cx="34" cy="25" r="2.5" fill="rgba(253,250,247,0.7)"/>
+            <path d="M22,32 Q28,37 34,32" stroke="rgba(253,250,247,0.7)" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
         <span class="work-name">MIRCO</span>
         <span class="work-cat">Branding</span>
         <span class="work-year">2024</span>
@@ -750,6 +782,14 @@
          data-color="#EDE0CC"
          data-label="DreamDepot" data-tag="Branding">
         <span class="work-num">03</span>
+        <div class="work-thumb">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" fill="#EDE0CC"/>
+            <text x="28" y="26" font-family="Georgia,serif" font-size="9" font-style="italic" fill="#6B5A40" text-anchor="middle">Dream</text>
+            <text x="28" y="38" font-family="Arial" font-size="7" fill="#6B5A40" text-anchor="middle" letter-spacing="2">DEPOT</text>
+            <line x1="12" y1="42" x2="44" y2="42" stroke="#C4A882" stroke-width="0.6"/>
+          </svg>
+        </div>
         <span class="work-name">DreamDepot</span>
         <span class="work-cat">Branding</span>
         <span class="work-year">2024</span>
@@ -759,6 +799,18 @@
          data-color="#1A1714"
          data-label="FUJIFILM" data-tag="Campaign · Art Direction">
         <span class="work-num">04</span>
+        <div class="work-thumb">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" fill="#1A1714"/>
+            <circle cx="28" cy="28" r="18" fill="#252018" opacity="0.8"/>
+            <circle cx="18" cy="16" r="7" fill="#FFE8A0" opacity="0.1"/>
+            <circle cx="38" cy="12" r="10" fill="#FFB8D0" opacity="0.1"/>
+            <circle cx="14" cy="30" r="4" fill="#FFE8A0" opacity="0.18"/>
+            <circle cx="40" cy="36" r="6" fill="#B0C8FF" opacity="0.12"/>
+            <circle cx="28" cy="42" r="3" fill="#FFE8A0" opacity="0.2"/>
+            <text x="28" y="30" font-family="Arial" font-size="5" fill="rgba(253,250,247,0.5)" text-anchor="middle" letter-spacing="1">FUJIFILM</text>
+          </svg>
+        </div>
         <span class="work-name">FUJIFILM Campaign</span>
         <span class="work-cat">Campaign · Art Direction</span>
         <span class="work-year">2024</span>
@@ -768,6 +820,19 @@
          data-color="#EDD8D0"
          data-label="IKEA" data-tag="Campaign">
         <span class="work-num">05</span>
+        <div class="work-thumb">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" fill="#EDD8D0"/>
+            <!-- Simple room corner -->
+            <polygon points="8,48 28,28 48,48" fill="#E0C8BE"/>
+            <rect x="8" y="16" width="20" height="32" fill="#E8D4CC"/>
+            <rect x="28" y="20" width="20" height="28" fill="#D4C0B8"/>
+            <!-- Window -->
+            <rect x="12" y="20" width="12" height="14" fill="#F5E8DC" opacity="0.8"/>
+            <line x1="18" y1="20" x2="18" y2="34" stroke="#C8ACA0" stroke-width="0.5"/>
+            <line x1="12" y1="27" x2="24" y2="27" stroke="#C8ACA0" stroke-width="0.5"/>
+          </svg>
+        </div>
         <span class="work-name">IKEA Room for Dreams</span>
         <span class="work-cat">Campaign</span>
         <span class="work-year">2024</span>
@@ -777,6 +842,18 @@
          data-color="#D8D0CA"
          data-label="Medical Beauty" data-tag="Product · AI Visual">
         <span class="work-num">06</span>
+        <div class="work-thumb">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" fill="#D8D0CA"/>
+            <!-- Device silhouette -->
+            <path d="M22,10 Q28,8 34,10 L34,46 Q28,48 22,46 Z" fill="#E8E2DC" stroke="#B8B0A8" stroke-width="0.8"/>
+            <ellipse cx="28" cy="14" rx="7" ry="2.5" fill="#D0C8C0"/>
+            <ellipse cx="28" cy="46" rx="6" ry="2" fill="#1A1714" opacity="0.25"/>
+            <circle cx="28" cy="30" r="5" fill="#C8C4C0"/>
+            <circle cx="28" cy="30" r="3" fill="#B8B4B0"/>
+            <text x="28" y="22" font-family="Georgia,serif" font-size="4" font-style="italic" fill="#8A8178" text-anchor="middle">nano</text>
+          </svg>
+        </div>
         <span class="work-name">Medical Beauty Device</span>
         <span class="work-cat">Product · AI Visual</span>
         <span class="work-year">2025</span>
