@@ -1,819 +1,962 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>보랏빛 바다 채우기 🌍💜 ARMY Global Map</title>
+  <title>Nayul — Lovely Intellect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
   <style>
-    /* ── Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* ── Variables ── */
     :root {
-      --purple-light: #c084fc;
-      --purple-mid:   #a855f7;
-      --purple-deep:  #7c3aed;
-      --purple-glow:  #4c1d95;
-      --bg-dark:      #0a0010;
-      --bg-card:      rgba(76,29,149,0.25);
-      --text-main:    #f3e8ff;
-      --text-dim:     #c4b5fd;
+      --white:      #FDFAF7;
+      --cream:      #F7F3EE;
+      --charcoal:   #1A1714;
+      --muted:      #8A8178;
+      --rose:       #C9A89A;
+      --gold:       #C4A882;
+      --rose-light: #EDD8D0;
+      --gold-light: #EDE0CC;
+      --pad:        48px;
     }
 
-    html, body {
-      width: 100%; height: 100%;
-      background: var(--bg-dark);
-      color: var(--text-main);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      overflow: hidden;
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--white);
+      color: var(--charcoal);
+      overflow-x: hidden;
+      cursor: none;
     }
 
-    /* ── Canvas layer ── */
-    #map-canvas {
+    /* ── Scroll Progress ── */
+    #scroll-progress {
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-    }
-
-    /* ── UI Shell ── */
-    #ui {
-      position: fixed;
-      inset: 0;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--rose), var(--gold));
+      z-index: 1000;
       pointer-events: none;
     }
 
-    /* ── Header ── */
-    #header {
+    /* ── Custom Cursor ── */
+    #cursor-dot {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--charcoal);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: background 0.2s, transform 0.15s;
+      will-change: left, top;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(26,23,20,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.35s ease, height 0.35s ease, border-color 0.25s, background 0.25s;
+      will-change: left, top;
+    }
+    #cursor-ring.works-hover {
+      width: 80px; height: 80px;
+      border-color: var(--charcoal);
+    }
+    #cursor-ring.link-hover {
+      border-color: var(--rose);
+      background: rgba(201,168,154,0.08);
+    }
+    #cursor-view {
+      position: fixed;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--charcoal);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    #cursor-view.visible { opacity: 1; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 28px var(--pad);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 28px 14px;
-      background: linear-gradient(to bottom, rgba(10,0,16,0.92), transparent);
+      transition: background 0.4s, backdrop-filter 0.4s, padding 0.3s;
+    }
+    nav.scrolled {
+      padding: 18px var(--pad);
+      background: rgba(253,250,247,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--charcoal);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--charcoal);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* Mobile nav overlay */
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+      background: var(--white);
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      z-index: 190;
+    }
+    .nav-links.open a {
+      font-size: 20px;
+      letter-spacing: 0.15em;
     }
 
-    #header h1 {
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      font-weight: 700;
-      letter-spacing: .05em;
-      background: linear-gradient(90deg, #e879f9, #a855f7, #818cf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    #global-count {
-      font-size: clamp(.75rem, 1.8vw, 1rem);
-      color: var(--purple-light);
-      text-align: right;
-    }
-    #global-count span {
-      font-size: clamp(1.1rem, 3vw, 1.8rem);
-      font-weight: 800;
-      color: #f0abfc;
-    }
-
-    /* ── Main area ── */
-    #center {
-      flex: 1;
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      background: var(--white);
       display: flex;
       align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 32px;
-    }
-
-    /* ── CTA Button ── */
-    #stream-btn {
-      pointer-events: all;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      padding: 18px 48px;
-      border-radius: 999px;
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      font-weight: 800;
-      letter-spacing: .06em;
-      color: #fff;
-      background: linear-gradient(135deg, #9333ea, #6d28d9, #4f46e5);
-      box-shadow:
-        0 0 20px rgba(168,85,247,.7),
-        0 0 60px rgba(168,85,247,.35),
-        inset 0 1px 0 rgba(255,255,255,.2);
-      transition: transform .12s, box-shadow .12s;
-      user-select: none;
-      position: relative;
+      padding: 0 var(--pad) 88px;
       overflow: hidden;
     }
-    #stream-btn::after {
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: blobFloat 9s ease-in-out infinite;
+    }
+    .blob-1 {
+      width: 480px; height: 480px;
+      background: var(--rose-light);
+      top: -120px; right: -60px;
+      opacity: 0.55;
+    }
+    .blob-2 {
+      width: 320px; height: 320px;
+      background: var(--gold-light);
+      top: 60px; right: 260px;
+      opacity: 0.4;
+      animation-delay: -3.5s;
+      animation-duration: 12s;
+    }
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0px, 0px); }
+      33%       { transform: translate(20px, -35px); }
+      66%       { transform: translate(-12px, 18px); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: heroFadeUp 0.8s ease forwards 0.25s;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(88px, 14vw, 190px);
+      font-weight: 300;
+      line-height: 0.88;
+      color: var(--charcoal);
+      letter-spacing: -0.01em;
+      margin-bottom: 36px;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: heroFadeUp 0.9s ease forwards 0.45s;
+    }
+    .hero-title .accent {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .hero-tagline {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: heroFadeUp 0.8s ease forwards 0.7s;
+    }
+    .hero-tagline::before {
+      content: '';
+      display: block;
+      width: 44px; height: 1px;
+      background: var(--charcoal);
+      flex-shrink: 0;
+    }
+    .hero-tagline span {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+    .hero-scroll {
+      position: absolute;
+      right: var(--pad);
+      bottom: 88px;
+      writing-mode: vertical-rl;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: heroFadeUp 0.8s ease forwards 1s;
+    }
+    @keyframes heroFadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION COMMON ── */
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 120px var(--pad);
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(34px, 3.8vw, 58px);
+      font-weight: 300;
+      line-height: 1.18;
+    }
+    .about-headline .bracket {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .about-text p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--charcoal);
+      margin-bottom: 22px;
+      max-width: 520px;
+    }
+    .skills-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 40px;
+    }
+    .tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--charcoal);
+      color: var(--charcoal);
+      background: transparent;
+      transition: background 0.25s, color 0.25s;
+      cursor: default;
+    }
+    .tag:hover {
+      background: var(--charcoal);
+      color: var(--white);
+    }
+
+    /* ── WORKS ── */
+    #works {
+      padding: 120px var(--pad);
+      background: var(--white);
+    }
+    .works-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .works-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 3.8vw, 52px);
+      font-weight: 300;
+    }
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      padding: 8px 22px;
+      border-radius: 999px;
+      border: 1px solid var(--charcoal);
+      color: var(--charcoal);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--charcoal);
+      color: var(--white);
+    }
+    .works-list {
+      border-top: 1px solid rgba(26,23,20,0.12);
+    }
+    .work-item {
+      display: grid;
+      grid-template-columns: 56px 1fr 220px 52px;
+      align-items: center;
+      gap: 24px;
+      padding: 26px 0;
+      border-bottom: 1px solid rgba(26,23,20,0.08);
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+    .work-item::before {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.25), transparent 60%);
+      background: var(--cream);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 0;
     }
-    #stream-btn:hover {
-      transform: scale(1.05);
-      box-shadow:
-        0 0 30px rgba(168,85,247,.9),
-        0 0 80px rgba(168,85,247,.5),
-        inset 0 1px 0 rgba(255,255,255,.2);
+    .work-item:hover::before { transform: scaleY(1); }
+    .work-item > * { position: relative; z-index: 1; }
+    .work-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--muted);
     }
-    #stream-btn:active { transform: scale(.97); }
+    .work-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2.6vw, 34px);
+      font-weight: 300;
+      letter-spacing: 0.005em;
+      transition: letter-spacing 0.35s ease;
+    }
+    .work-item:hover .work-name { letter-spacing: 0.045em; }
+    .work-cat {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .work-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: right;
+    }
 
-    /* ── Leaderboard ── */
-    #leaderboard {
-      pointer-events: all;
+    /* Work preview card */
+    #work-preview {
       position: fixed;
-      top: 80px;
-      right: 20px;
-      width: clamp(180px, 22vw, 260px);
-      background: rgba(10,0,16,.75);
-      border: 1px solid rgba(168,85,247,.35);
-      border-radius: 16px;
-      padding: 14px 16px;
-      backdrop-filter: blur(12px);
-      z-index: 20;
-    }
-    #leaderboard h2 {
-      font-size: .78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--purple-light);
-      margin-bottom: 10px;
-    }
-    .lb-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 0;
-      border-bottom: 1px solid rgba(168,85,247,.1);
-      font-size: .82rem;
-    }
-    .lb-row:last-child { border-bottom: none; }
-    .lb-rank {
-      width: 18px;
-      text-align: center;
-      font-weight: 700;
-      font-size: .7rem;
-      color: #a78bfa;
-    }
-    .lb-rank.gold   { color: #fbbf24; }
-    .lb-rank.silver { color: #cbd5e1; }
-    .lb-rank.bronze { color: #d97706; }
-    .lb-city { flex: 1; color: var(--text-main); }
-    .lb-bar-wrap {
-      width: 60px; height: 6px;
-      background: rgba(168,85,247,.15);
+      width: 240px;
+      height: 300px;
+      pointer-events: none;
+      z-index: 400;
+      opacity: 0;
+      transform: rotate(-2.5deg) scale(0.92);
+      transition: opacity 0.28s ease, transform 0.28s ease;
       border-radius: 3px;
       overflow: hidden;
+      box-shadow: 0 16px 48px rgba(26,23,20,0.18);
     }
-    .lb-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #9333ea, #c084fc);
-      border-radius: 3px;
-      transition: width .5s ease;
+    #work-preview.visible {
+      opacity: 1;
+      transform: rotate(-2.5deg) scale(1);
     }
-    .lb-val {
-      min-width: 36px;
-      text-align: right;
-      font-size: .72rem;
-      color: var(--text-dim);
-      font-variant-numeric: tabular-nums;
+    .preview-inner {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .preview-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 20px;
+      font-weight: 300;
+      color: rgba(253,250,247,0.75);
+    }
+    .preview-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(253,250,247,0.45);
     }
 
-    /* ── Toast notifications ── */
-    #toast-container {
-      position: fixed;
-      bottom: 120px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* ── IDENTITY ── */
+    #identity {
+      padding: 120px var(--pad);
+      background: var(--charcoal);
+      color: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .identity-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 68px);
+      font-weight: 300;
+      line-height: 1.08;
+    }
+    .identity-headline .italic-rose {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .identity-sub {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(253,250,247,0.65);
+      margin-top: 28px;
+      max-width: 460px;
+    }
+    .identity-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .identity-card {
+      border: 1px solid rgba(253,250,247,0.12);
+      padding: 32px 36px;
+      transition: border-color 0.28s, background 0.28s;
+    }
+    .identity-card:hover {
+      border-color: rgba(253,250,247,0.4);
+      background: rgba(253,250,247,0.03);
+    }
+    .card-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 12px;
+    }
+    .card-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1.35;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 160px var(--pad);
+      background: var(--cream);
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-      z-index: 30;
-      pointer-events: none;
-      width: min(90vw, 480px);
     }
-    .toast {
-      background: rgba(15,0,30,.88);
-      border: 1px solid rgba(192,132,252,.5);
-      border-radius: 12px;
-      padding: 10px 18px;
-      font-size: .82rem;
-      color: var(--text-main);
-      text-align: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 18px rgba(168,85,247,.3);
-      animation: toast-in .3s ease, toast-out .4s ease 2.8s forwards;
+    .contact-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 8vw, 104px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.08;
+      margin-bottom: 32px;
     }
-    @keyframes toast-in {
-      from { opacity: 0; transform: translateY(12px) scale(.94); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+    .contact-headline .rose { color: var(--rose); }
+    .contact-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 56px;
     }
-    @keyframes toast-out {
-      from { opacity: 1; }
-      to   { opacity: 0; transform: translateY(-8px) scale(.96); }
+    .contact-links {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
-
-    /* ── City label dots ── */
-    .city-dot {
-      position: absolute;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--purple-mid);
-      box-shadow: 0 0 8px var(--purple-mid);
-      transform: translate(-50%, -50%);
-      pointer-events: all;
-      cursor: pointer;
-      z-index: 15;
-      transition: box-shadow .2s;
+    .contact-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--charcoal);
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-color: rgba(26,23,20,0.35);
+      transition: color 0.2s, text-decoration-color 0.2s;
     }
-    .city-dot:hover {
-      box-shadow: 0 0 18px var(--purple-light), 0 0 6px #fff;
-    }
-    .city-label {
-      position: absolute;
-      font-size: .62rem;
-      color: var(--purple-light);
-      white-space: nowrap;
-      transform: translateX(-50%);
-      top: 10px;
-      pointer-events: none;
-      text-shadow: 0 0 6px #4c1d95;
+    .contact-links a:hover {
+      color: var(--rose);
+      text-decoration-color: var(--rose);
     }
 
-    /* ── Pulse ring ── */
-    @keyframes pulse-ring {
-      0%   { transform: translate(-50%,-50%) scale(.8); opacity: .7; }
-      100% { transform: translate(-50%,-50%) scale(3);  opacity: 0; }
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px var(--pad);
+      background: var(--cream);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(26,23,20,0.08);
     }
-    .pulse-ring {
-      position: absolute;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      border: 2px solid var(--purple-light);
-      transform: translate(-50%, -50%);
-      animation: pulse-ring 1.4s ease-out infinite;
-      pointer-events: none;
-      z-index: 14;
+    footer p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      :root { --pad: 32px; }
+      #about, #identity { grid-template-columns: 1fr; gap: 48px; }
+      .work-item { grid-template-columns: 44px 1fr 40px; }
+      .work-cat { display: none; }
+    }
+    @media (max-width: 600px) {
+      :root { --pad: 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .work-item { grid-template-columns: 36px 1fr; }
+      .work-year { display: none; }
+      .works-header { flex-direction: column; align-items: flex-start; }
+      body { cursor: auto; }
+      #cursor-dot, #cursor-ring, #cursor-view { display: none; }
     }
   </style>
 </head>
 <body>
 
-<canvas id="map-canvas"></canvas>
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress"></div>
 
-<!-- City hotspot dots (positioned via JS) -->
-<div id="city-layer"></div>
+  <!-- Custom Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-view">View →</div>
 
-<!-- Toast area -->
-<div id="toast-container"></div>
-
-<!-- UI Shell -->
-<div id="ui">
-  <div id="header">
-    <h1>💜 보랏빛 바다 채우기 &nbsp;· &nbsp;ARMY Global Map</h1>
-    <div id="global-count">
-      전 세계 스밍 인증<br>
-      <span id="count-display">0</span> 개
+  <!-- Works Hover Preview -->
+  <div id="work-preview">
+    <div class="preview-inner">
+      <p class="preview-name"></p>
+      <p class="preview-tag"></p>
     </div>
   </div>
 
-  <div id="center">
-    <button id="stream-btn">💜 스밍 인증하기</button>
-  </div>
-</div>
+  <!-- ── Navigation ── -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Nayul</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#identity">Identity</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-<!-- Leaderboard -->
-<div id="leaderboard">
-  <h2>🏆 도시 순위</h2>
-  <div id="lb-list"></div>
-</div>
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Industrial Designer · Brand Creator · Seoul</p>
+      <h1 class="hero-title">Na<span class="accent">yul</span></h1>
+      <div class="hero-tagline">
+        <span>Lovely Intellect</span>
+      </div>
+    </div>
+    <p class="hero-scroll">Scroll ↓</p>
+  </section>
 
-<script>
-// ══════════════════════════════════════════════════════════
-//  DATA
-// ══════════════════════════════════════════════════════════
-const CITIES = [
-  { id:'seoul',    name:'서울',        lat:37.56,  lon:126.98 },
-  { id:'tokyo',    name:'도쿄',        lat:35.68,  lon:139.69 },
-  { id:'busan',    name:'부산',        lat:35.10,  lon:129.04 },
-  { id:'newyork',  name:'뉴욕',        lat:40.71,  lon:-74.01 },
-  { id:'london',   name:'런던',        lat:51.51,  lon:-0.13  },
-  { id:'paris',    name:'파리',        lat:48.85,  lon:2.35   },
-  { id:'jakarta',  name:'자카르타',    lat:-6.21,  lon:106.85 },
-  { id:'bangkok',  name:'방콕',        lat:13.76,  lon:100.50 },
-  { id:'manila',   name:'마닐라',      lat:14.60,  lon:120.98 },
-  { id:'sydney',   name:'시드니',      lat:-33.87, lon:151.21 },
-  { id:'losangeles',name:'LA',         lat:34.05,  lon:-118.24},
-  { id:'chicago',  name:'시카고',      lat:41.88,  lon:-87.63 },
-  { id:'saopaulo', name:'상파울루',    lat:-23.55, lon:-46.63 },
-  { id:'mexico',   name:'멕시코시티',  lat:19.43,  lon:-99.13 },
-  { id:'toronto',  name:'토론토',      lat:43.65,  lon:-79.38 },
-  { id:'berlin',   name:'베를린',      lat:52.52,  lon:13.41  },
-  { id:'moscow',   name:'모스크바',    lat:55.75,  lon:37.62  },
-  { id:'dubai',    name:'두바이',      lat:25.20,  lon:55.27  },
-  { id:'singapore',name:'싱가포르',    lat:1.35,   lon:103.82 },
-  { id:'hongkong', name:'홍콩',        lat:22.32,  lon:114.17 },
-  { id:'taipei',   name:'타이베이',    lat:25.04,  lon:121.56 },
-  { id:'mumbai',   name:'뭄바이',      lat:19.08,  lon:72.88  },
-  { id:'cairo',    name:'카이로',      lat:30.04,  lon:31.24  },
-  { id:'nairobi',  name:'나이로비',    lat:-1.29,  lon:36.82  },
-  { id:'bogota',   name:'보고타',      lat:4.71,   lon:-74.07 },
-];
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="about-left">
+      <p class="section-label reveal">About</p>
+      <h2 class="about-headline reveal">
+        <span class="bracket">[</span> Emotionally<br>
+        intelligent<br>
+        by design <span class="bracket">]</span>
+      </h2>
+    </div>
+    <div class="about-right">
+      <p class="section-label reveal" style="visibility:hidden">&nbsp;</p>
+      <div class="about-text">
+        <p class="reveal">I'm Nayul (이나현), an industrial designer and brand creative based in Seoul. I specialize in turning ideas into sensory experiences — through packaging, identity systems, and visual campaigns that people feel before they fully understand.</p>
+        <p class="reveal" style="transition-delay: 0.1s">Currently exploring global opportunities in creative agencies and studios across Germany, Australia, Japan, and the US. My work lives at the intersection of emotional intelligence and strategic design thinking.</p>
+        <p class="reveal" style="transition-delay: 0.2s">I design like I think — methodically, but always led by instinct.</p>
+      </div>
+      <div class="skills-tags reveal" style="transition-delay: 0.3s">
+        <span class="tag">Brand Identity</span>
+        <span class="tag">Packaging</span>
+        <span class="tag">Art Direction</span>
+        <span class="tag">Campaign</span>
+        <span class="tag">UI · UX</span>
+        <span class="tag">4th Gen Aesthetic</span>
+      </div>
+    </div>
+  </section>
 
-const state = {
-  total: 0,
-  cities: Object.fromEntries(CITIES.map(c => [c.id, 0])),
-  glowMap: {},   // cityId -> 0..1 glow intensity
-};
+  <!-- ── Works ── -->
+  <section id="works">
+    <div class="works-header">
+      <div>
+        <p class="section-label reveal">Works</p>
+        <h2 class="works-title reveal">Selected Projects</h2>
+      </div>
+      <div class="filter-buttons reveal" style="transition-delay: 0.1s">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+        <button class="filter-btn" data-filter="packaging">Packaging</button>
+        <button class="filter-btn" data-filter="campaign">Campaign</button>
+        <button class="filter-btn" data-filter="product">Product</button>
+      </div>
+    </div>
+    <div class="works-list">
+      <a href="sloweat.html" class="work-item reveal"
+         data-categories="packaging branding"
+         data-color="#D4CDB8"
+         data-label="SLOWEAT" data-tag="Packaging · Branding">
+        <span class="work-num">01</span>
+        <span class="work-name">SLOWEAT</span>
+        <span class="work-cat">Packaging · Branding</span>
+        <span class="work-year">2024</span>
+      </a>
+      <a href="mirco.html" class="work-item reveal" style="transition-delay: 0.05s"
+         data-categories="branding"
+         data-color="#8A8178"
+         data-label="MIRCO" data-tag="Branding">
+        <span class="work-num">02</span>
+        <span class="work-name">MIRCO</span>
+        <span class="work-cat">Branding</span>
+        <span class="work-year">2024</span>
+      </a>
+      <a href="dreamdepot.html" class="work-item reveal" style="transition-delay: 0.1s"
+         data-categories="branding"
+         data-color="#EDE0CC"
+         data-label="DreamDepot" data-tag="Branding">
+        <span class="work-num">03</span>
+        <span class="work-name">DreamDepot</span>
+        <span class="work-cat">Branding</span>
+        <span class="work-year">2024</span>
+      </a>
+      <a href="fujifilm.html" class="work-item reveal" style="transition-delay: 0.15s"
+         data-categories="campaign"
+         data-color="#1A1714"
+         data-label="FUJIFILM" data-tag="Campaign · Art Direction">
+        <span class="work-num">04</span>
+        <span class="work-name">FUJIFILM Campaign</span>
+        <span class="work-cat">Campaign · Art Direction</span>
+        <span class="work-year">2024</span>
+      </a>
+      <a href="ikea.html" class="work-item reveal" style="transition-delay: 0.2s"
+         data-categories="campaign"
+         data-color="#EDD8D0"
+         data-label="IKEA" data-tag="Campaign">
+        <span class="work-num">05</span>
+        <span class="work-name">IKEA Room for Dreams</span>
+        <span class="work-cat">Campaign</span>
+        <span class="work-year">2024</span>
+      </a>
+      <a href="medical.html" class="work-item reveal" style="transition-delay: 0.25s"
+         data-categories="product"
+         data-color="#D8D0CA"
+         data-label="Medical Beauty" data-tag="Product · AI Visual">
+        <span class="work-num">06</span>
+        <span class="work-name">Medical Beauty Device</span>
+        <span class="work-cat">Product · AI Visual</span>
+        <span class="work-year">2025</span>
+      </a>
+    </div>
+  </section>
 
-// ══════════════════════════════════════════════════════════
-//  MAP / CANVAS
-// ══════════════════════════════════════════════════════════
-const canvas = document.getElementById('map-canvas');
-const ctx = canvas.getContext('2d');
+  <!-- ── Identity ── -->
+  <section id="identity">
+    <div>
+      <p class="section-label reveal" style="color:rgba(253,250,247,0.38)">Identity</p>
+      <h2 class="identity-headline reveal">
+        This is<br>
+        <span class="italic-rose">Nayul</span>
+      </h2>
+      <p class="identity-sub reveal" style="transition-delay: 0.12s">
+        A creative identity built on the conviction that beauty and intelligence are not opposites — they're the same thing, approached from different angles. Luxuriously warm, rigorously considered.
+      </p>
+    </div>
+    <div class="identity-cards">
+      <div class="identity-card reveal">
+        <p class="card-label">Philosophy</p>
+        <p class="card-value">Trend-aware,<br>emotionally driven</p>
+      </div>
+      <div class="identity-card reveal" style="transition-delay: 0.1s">
+        <p class="card-label">Aesthetic</p>
+        <p class="card-value">Minimal · Emotional · Refined</p>
+      </div>
+      <div class="identity-card reveal" style="transition-delay: 0.2s">
+        <p class="card-label">Tagline</p>
+        <p class="card-value">Lovely Intellect</p>
+      </div>
+    </div>
+  </section>
 
-let W, H;
-function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-  drawMap();
-}
-window.addEventListener('resize', resize);
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="contact-headline reveal">
+      Let's make<br>
+      something <span class="rose">lovely</span>
+    </h2>
+    <p class="contact-sub reveal" style="transition-delay: 0.1s">
+      Open for freelance · Collaboration · Global opportunities
+    </p>
+    <div class="contact-links reveal" style="transition-delay: 0.2s">
+      <a href="mailto:hello@nayul.design">Email</a>
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" target="_blank" rel="noopener">Behance</a>
+    </div>
+  </section>
 
-// Equirectangular projection
-function latLonToXY(lat, lon) {
-  // Shift to fit typical map render (slightly north-biased)
-  const x = ((lon + 180) / 360) * W;
-  const y = ((90 - lat) / 180) * H;
-  return { x, y };
-}
+  <footer>
+    <p>© 2025 Nayul. All rights reserved.</p>
+    <p>Seoul, Korea</p>
+  </footer>
 
-// ── Simplified world-land polygon data (low-res outlines) ──
-// We'll draw them as simplified shapes for a stylised look.
-// Coordinates: [lon, lat] pairs per landmass.
-const LANDS = [
-  // North America
-  { pts:[[-168,72],[-140,60],[-130,55],[-124,49],[-117,32],[-97,26],[-80,25],[-79,43],[-76,44],[-66,45],[-53,47],[-54,54],[-65,60],[-68,68],[-100,70],[-140,70],[-168,72]] },
-  // Greenland
-  { pts:[[-73,76],[-25,84],[-18,78],[-20,70],[-44,60],[-53,65],[-73,76]] },
-  // South America
-  { pts:[[-81,8],[-78,-1],[-72,-18],[-65,-55],[-55,-53],[-48,-28],[-35,-8],[-50,5],[-63,10],[-81,8]] },
-  // Europe (simplified)
-  { pts:[[-9,36],[3,36],[13,38],[30,42],[30,50],[20,55],[10,55],[5,52],[-2,50],[-5,44],[-9,39],[-9,36]] },
-  // Scandinavia
-  { pts:[[5,58],[15,58],[28,65],[30,70],[26,72],[18,70],[8,63],[5,58]] },
-  // Africa
-  { pts:[[-17,15],[0,10],[10,5],[40,10],[50,12],[44,-10],[35,-20],[20,-35],[18,-34],[10,-18],[0,5],[-15,5],[-17,15]] },
-  // Russia/Eurasia
-  { pts:[[30,50],[60,50],[90,50],[130,50],[140,60],[160,60],[168,64],[168,70],[140,72],[100,75],[60,72],[30,68],[20,60],[30,55],[30,50]] },
-  // Middle East
-  { pts:[[36,37],[48,30],[60,22],[58,14],[45,12],[38,12],[32,29],[36,37]] },
-  // South Asia
-  { pts:[[60,22],[80,24],[92,22],[100,14],[80,8],[72,10],[66,24],[60,22]] },
-  // Southeast Asia
-  { pts:[[100,14],[110,18],[120,20],[125,10],[120,2],[106,-6],[100,2],[100,14]] },
-  // East Asia (China/Korea)
-  { pts:[[100,50],[110,40],[120,30],[122,32],[128,38],[130,42],[128,50],[116,54],[100,52],[100,50]] },
-  // Japan
-  { pts:[[130,31],[132,34],[136,36],[141,40],[141,44],[138,45],[134,42],[130,34],[130,31]] },
-  // Australia
-  { pts:[[114,-22],[122,-34],[130,-32],[148,-38],[154,-26],[148,-18],[136,-12],[124,-15],[114,-22]] },
-  // New Zealand (tiny)
-  { pts:[[172,-34],[174,-36],[172,-44],[170,-46],[168,-43],[170,-36],[172,-34]] },
-];
-
-function drawMap() {
-  ctx.clearRect(0, 0, W, H);
-
-  // Deep space background
-  const bgGrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*.7);
-  bgGrad.addColorStop(0,   '#0e0018');
-  bgGrad.addColorStop(0.5, '#080012');
-  bgGrad.addColorStop(1,   '#04000c');
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Stars
-  ctx.save();
-  for (const s of stars) {
-    ctx.globalAlpha = s.a * (.6 + .4 * Math.sin(Date.now()*.001 * s.speed + s.phase));
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI*2);
-    ctx.fill();
-  }
-  ctx.restore();
-
-  // Grid lines (subtle)
-  ctx.save();
-  ctx.strokeStyle = 'rgba(139,92,246,.06)';
-  ctx.lineWidth = .5;
-  for (let lon = -180; lon <= 180; lon += 30) {
-    const { x } = latLonToXY(0, lon);
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let lat = -90; lat <= 90; lat += 30) {
-    const { y } = latLonToXY(lat, 0);
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
-  ctx.restore();
-
-  // Land masses
-  for (const land of LANDS) {
-    ctx.beginPath();
-    let first = true;
-    for (const [lon, lat] of land.pts) {
-      const { x, y } = latLonToXY(lat, lon);
-      if (first) { ctx.moveTo(x, y); first = false; }
-      else         ctx.lineTo(x, y);
+  <script>
+    // ── Scroll Progress ──
+    const progress = document.getElementById('scroll-progress');
+    function updateProgress() {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (scrolled / total * 100) + '%';
     }
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(88,28,135,.28)';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(139,92,246,.35)';
-    ctx.lineWidth = .8;
-    ctx.stroke();
-  }
+    window.addEventListener('scroll', updateProgress, { passive: true });
 
-  // City glow overlays
-  for (const city of CITIES) {
-    const intensity = state.glowMap[city.id] || 0;
-    if (intensity < 0.01) continue;
-    const { x, y } = latLonToXY(city.lat, city.lon);
-    const r = 30 + intensity * 120;
-    const glow = ctx.createRadialGradient(x, y, 0, x, y, r);
-    glow.addColorStop(0,   `rgba(192,132,252,${(.6*intensity).toFixed(3)})`);
-    glow.addColorStop(.4,  `rgba(147,51,234,${(.35*intensity).toFixed(3)})`);
-    glow.addColorStop(1,   'rgba(76,29,149,0)');
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI*2);
-    ctx.fill();
-  }
-}
+    // ── Navbar scroll effect ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
 
-// ── Star field ──
-const stars = Array.from({ length: 180 }, () => ({
-  x: Math.random(), y: Math.random(),
-  r: Math.random() * 1.2 + .2,
-  a: Math.random() * .6 + .2,
-  speed: Math.random() * 2 + .5,
-  phase: Math.random() * Math.PI * 2,
-}));
+    // ── Custom Cursor ──
+    const dot   = document.getElementById('cursor-dot');
+    const ring  = document.getElementById('cursor-ring');
+    const view  = document.getElementById('cursor-view');
+    let mx = 0, my = 0, rx = 0, ry = 0;
 
-// ══════════════════════════════════════════════════════════
-//  PARTICLES
-// ══════════════════════════════════════════════════════════
-const particles = [];
-
-function spawnParticles(x, y, count = 28) {
-  for (let i = 0; i < count; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 1.5 + Math.random() * 4;
-    const hue   = 260 + Math.random() * 50; // purple range
-    particles.push({
-      x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      life: 1,
-      decay: .018 + Math.random() * .022,
-      r: 1.5 + Math.random() * 3,
-      color: `hsl(${hue},80%,${65 + Math.random()*20}%)`,
-      glow: Math.random() > .5,
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
     });
-  }
-  // Ring burst
-  for (let i = 0; i < 12; i++) {
-    const angle = (i / 12) * Math.PI * 2;
-    particles.push({
-      x, y,
-      vx: Math.cos(angle) * (2 + Math.random()),
-      vy: Math.sin(angle) * (2 + Math.random()),
-      life: 1,
-      decay: .025,
-      r: 2,
-      color: '#e879f9',
-      glow: true,
-      ring: true,
+
+    (function trackRing() {
+      rx += (mx - rx) * 0.11;
+      ry += (my - ry) * 0.11;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      view.style.left = rx + 'px';
+      view.style.top  = ry + 'px';
+      requestAnimationFrame(trackRing);
+    })();
+
+    // Cursor states for work items
+    document.querySelectorAll('.work-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.classList.add('works-hover');
+        view.classList.add('visible');
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.classList.remove('works-hover');
+        view.classList.remove('visible');
+      });
     });
-  }
-}
+    // Cursor state for links/buttons
+    document.querySelectorAll('a:not(.work-item), button').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('link-hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('link-hover'));
+    });
 
-function updateParticles() {
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.x  += p.vx;
-    p.y  += p.vy;
-    p.vx *= .94;
-    p.vy *= .94;
-    p.vy += .04; // slight gravity
-    p.life -= p.decay;
-    if (p.life <= 0) particles.splice(i, 1);
-  }
-}
+    // ── Works Hover Preview ──
+    const preview = document.getElementById('work-preview');
+    const previewName = preview.querySelector('.preview-name');
+    const previewTag  = preview.querySelector('.preview-tag');
 
-function drawParticles() {
-  for (const p of particles) {
-    ctx.save();
-    ctx.globalAlpha = p.life;
-    if (p.glow) {
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur  = 8;
-    }
-    ctx.fillStyle = p.color;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
+    document.addEventListener('mousemove', e => {
+      if (preview.classList.contains('visible')) {
+        preview.style.left = (e.clientX + 24) + 'px';
+        preview.style.top  = (e.clientY - 160) + 'px';
+      }
+    });
 
-// ══════════════════════════════════════════════════════════
-//  RIPPLE EFFECTS
-// ══════════════════════════════════════════════════════════
-const ripples = [];
+    document.querySelectorAll('.work-item').forEach(item => {
+      const color = item.dataset.color;
+      const isDark = color === '#1A1714' || color === '#8A8178';
+      item.addEventListener('mouseenter', () => {
+        preview.querySelector('.preview-inner').style.background = color;
+        previewName.textContent = item.dataset.label;
+        previewTag.textContent  = item.dataset.tag;
+        const fg = isDark ? 'rgba(253,250,247,' : 'rgba(26,23,20,';
+        previewName.style.color = fg + '0.7)';
+        previewTag.style.color  = fg + '0.4)';
+        preview.classList.add('visible');
+      });
+      item.addEventListener('mouseleave', () => preview.classList.remove('visible'));
+    });
 
-function spawnRipple(x, y) {
-  ripples.push({ x, y, r: 0, life: 1 });
-}
+    // ── Filter ──
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.work-item').forEach(item => {
+          const cats = item.dataset.categories;
+          const show = filter === 'all' || cats.includes(filter);
+          if (show) {
+            item.style.display = '';
+            requestAnimationFrame(() => { item.style.opacity = '1'; item.style.pointerEvents = ''; });
+          } else {
+            item.style.opacity = '0';
+            item.style.pointerEvents = 'none';
+            setTimeout(() => { if (item.style.opacity === '0') item.style.display = 'none'; }, 300);
+          }
+        });
+      });
+    });
 
-function updateRipples() {
-  for (let i = ripples.length - 1; i >= 0; i--) {
-    ripples[i].r    += 2.5;
-    ripples[i].life -= .025;
-    if (ripples[i].life <= 0) ripples.splice(i, 1);
-  }
-}
+    // ── Scroll Reveal ──
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-function drawRipples() {
-  for (const rp of ripples) {
-    ctx.save();
-    ctx.globalAlpha = rp.life * .7;
-    ctx.strokeStyle = '#c084fc';
-    ctx.lineWidth = 1.5;
-    ctx.shadowColor = '#a855f7';
-    ctx.shadowBlur  = 6;
-    ctx.beginPath();
-    ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
-  }
-}
-
-// ══════════════════════════════════════════════════════════
-//  ANIMATION LOOP
-// ══════════════════════════════════════════════════════════
-function loop() {
-  drawMap();
-  updateRipples();
-  drawRipples();
-  updateParticles();
-  drawParticles();
-  requestAnimationFrame(loop);
-}
-
-// ══════════════════════════════════════════════════════════
-//  CITY DOTS (DOM overlay)
-// ══════════════════════════════════════════════════════════
-const cityLayer = document.getElementById('city-layer');
-const cityEls = {};
-
-function buildCityDots() {
-  cityLayer.innerHTML = '';
-  for (const city of CITIES) {
-    const { x, y } = latLonToXY(city.lat, city.lon);
-
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `position:absolute;left:${x}px;top:${y}px;`;
-
-    const ring = document.createElement('div');
-    ring.className = 'pulse-ring';
-    ring.style.animationDelay = `${Math.random() * 1.4}s`;
-
-    const dot = document.createElement('div');
-    dot.className = 'city-dot';
-    dot.title = city.name;
-    dot.addEventListener('click', () => triggerCity(city.id));
-
-    const label = document.createElement('div');
-    label.className = 'city-label';
-    label.textContent = city.name;
-
-    wrap.appendChild(ring);
-    wrap.appendChild(dot);
-    wrap.appendChild(label);
-    cityLayer.appendChild(wrap);
-    cityEls[city.id] = { wrap, dot, ring };
-  }
-}
-
-function repositionCityDots() {
-  for (const city of CITIES) {
-    const { x, y } = latLonToXY(city.lat, city.lon);
-    if (cityEls[city.id]) {
-      cityEls[city.id].wrap.style.left = `${x}px`;
-      cityEls[city.id].wrap.style.top  = `${y}px`;
-    }
-  }
-}
-window.addEventListener('resize', repositionCityDots);
-
-// ══════════════════════════════════════════════════════════
-//  LEADERBOARD
-// ══════════════════════════════════════════════════════════
-const lbList = document.getElementById('lb-list');
-
-function updateLeaderboard() {
-  const sorted = CITIES
-    .map(c => ({ ...c, count: state.cities[c.id] || 0 }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 8);
-
-  const maxVal = sorted[0]?.count || 1;
-
-  lbList.innerHTML = '';
-  sorted.forEach((c, i) => {
-    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
-    const pct = Math.max(3, (c.count / maxVal) * 100);
-    const row = document.createElement('div');
-    row.className = 'lb-row';
-    row.innerHTML = `
-      <div class="lb-rank ${rankClass}">${i+1}</div>
-      <div class="lb-city">${c.name}</div>
-      <div class="lb-bar-wrap"><div class="lb-bar" style="width:${pct}%"></div></div>
-      <div class="lb-val">${c.count.toLocaleString()}</div>
-    `;
-    lbList.appendChild(row);
-  });
-}
-
-// ══════════════════════════════════════════════════════════
-//  TOASTS
-// ══════════════════════════════════════════════════════════
-const toastContainer = document.getElementById('toast-container');
-
-function showToast(msg) {
-  const el = document.createElement('div');
-  el.className = 'toast';
-  el.textContent = msg;
-  toastContainer.appendChild(el);
-  setTimeout(() => el.remove(), 3300);
-}
-
-// Milestone messages
-const MILESTONES = [10, 50, 100, 250, 500, 1000, 2000, 5000, 10000];
-const cityMilestones = {};
-
-function checkMilestones(cityId, count) {
-  if (!cityMilestones[cityId]) cityMilestones[cityId] = new Set();
-  const city = CITIES.find(c => c.id === cityId);
-  for (const m of MILESTONES) {
-    if (count >= m && !cityMilestones[cityId].has(m)) {
-      cityMilestones[cityId].add(m);
-      showToast(`🎉 ${city.name}에 보라색 등이 ${m.toLocaleString()}개 켜졌어요!`);
-    }
-  }
-}
-
-function challengeToast() {
-  const sorted = CITIES
-    .map(c => ({ ...c, count: state.cities[c.id] }))
-    .sort((a, b) => b.count - a.count);
-  if (sorted.length < 2 || sorted[1].count < 1) return;
-  const gap = sorted[0].count - sorted[1].count;
-  if (gap < 5) return;
-  showToast(`⚡ ${sorted[1].name}이/가 ${sorted[0].name}을 ${gap}개 차이로 쫓고 있어요! 화이팅!`);
-}
-
-let challengeTimer = 0;
-
-// ══════════════════════════════════════════════════════════
-//  CORE LOGIC
-// ══════════════════════════════════════════════════════════
-const countDisplay = document.getElementById('count-display');
-
-function triggerCity(cityId, fromButton = false) {
-  const city = CITIES.find(c => c.id === cityId);
-  const { x, y } = latLonToXY(city.lat, city.lon);
-
-  state.cities[cityId] = (state.cities[cityId] || 0) + 1;
-  state.total++;
-  state.glowMap[cityId] = Math.min(1, (state.glowMap[cityId] || 0) + .04);
-
-  // Particles & ripple
-  spawnParticles(x, y, fromButton ? 40 : 20);
-  spawnRipple(x, y);
-
-  // Count display
-  countDisplay.textContent = state.total.toLocaleString();
-
-  // Leaderboard
-  updateLeaderboard();
-
-  // Milestones
-  checkMilestones(cityId, state.cities[cityId]);
-
-  // Decay glow slowly so old ones don't stay too bright forever
-  // (handled in the map redraw loop via a fade)
-}
-
-// Glow decay
-setInterval(() => {
-  for (const k of Object.keys(state.glowMap)) {
-    state.glowMap[k] = Math.max(0, state.glowMap[k] - .003);
-  }
-}, 100);
-
-// Challenge toast every 15s
-setInterval(() => {
-  challengeTimer++;
-  if (challengeTimer % 3 === 0) challengeToast();
-}, 5000);
-
-// ══════════════════════════════════════════════════════════
-//  BUTTON — detect user location (approximate)
-// ══════════════════════════════════════════════════════════
-let userCityId = null;
-
-function detectNearestCity(lat, lon) {
-  let best = null, bestDist = Infinity;
-  for (const c of CITIES) {
-    const d = Math.hypot(c.lat - lat, c.lon - lon);
-    if (d < bestDist) { bestDist = d; best = c.id; }
-  }
-  return best;
-}
-
-// Try geolocation
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      userCityId = detectNearestCity(pos.coords.latitude, pos.coords.longitude);
-      const city = CITIES.find(c => c.id === userCityId);
-      showToast(`📍 위치 감지됨: ${city.name} 💜`);
-    },
-    () => {
-      // Fallback: random or Seoul
-      userCityId = 'seoul';
-    }
-  );
-} else {
-  userCityId = 'seoul';
-}
-
-document.getElementById('stream-btn').addEventListener('click', () => {
-  const cid = userCityId || 'seoul';
-  triggerCity(cid, true);
-
-  // Also light up a couple random nearby cities for demo feel
-  if (Math.random() < .35) {
-    const others = CITIES.filter(c => c.id !== cid);
-    const rnd = others[Math.floor(Math.random() * others.length)];
-    setTimeout(() => triggerCity(rnd.id), 200 + Math.random() * 400);
-  }
-});
-
-// ══════════════════════════════════════════════════════════
-//  SIMULATE other ARMYs joining (demo mode)
-// ══════════════════════════════════════════════════════════
-function simulateOthers() {
-  const city = CITIES[Math.floor(Math.random() * CITIES.length)];
-  triggerCity(city.id);
-}
-
-// Random pings from around the world
-setInterval(simulateOthers, 800 + Math.random() * 1200);
-setInterval(simulateOthers, 1200 + Math.random() * 2000);
-
-// ══════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════
-resize();
-buildCityDots();
-updateLeaderboard();
-loop();
-
-// Seed initial data so the map looks alive immediately
-(function seed() {
-  const seeds = [
-    ['seoul',8],['tokyo',6],['newyork',4],['london',3],
-    ['paris',2],['jakarta',3],['bangkok',2],['manila',3],
-  ];
-  for (const [id, n] of seeds) {
-    for (let i = 0; i < n; i++) state.cities[id] = (state.cities[id]||0)+1;
-    state.total += seeds.find(s=>s[0]===id)[1];
-    state.glowMap[id] = Math.min(1, seeds.find(s=>s[0]===id)[1] * .05);
-  }
-  countDisplay.textContent = state.total.toLocaleString();
-  updateLeaderboard();
-})();
-
-showToast('💜 전 세계 아미와 함께 보랏빛 바다를 만들어요!');
-</script>
+    // ── Hamburger ──
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+  </script>
 </body>
 </html>

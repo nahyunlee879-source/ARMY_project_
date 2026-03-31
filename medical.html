@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Beauty Device — Nayul</title>
+  <link rel="stylesheet" href="project.css" />
+  <style>
+    .project-hero { background: #D8D0CA; color: var(--charcoal); }
+    .visual-1 { background: #CBC4BE; }
+    .visual-2 { background: #BEB8B2; }
+    .visual-3 { background: #D8D0CA; }
+    .visual-4 { background: #E4DED8; }
+  </style>
+</head>
+<body>
+  <div id="scroll-progress"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">Nayul</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#works">Works</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#works" class="back-link">← All Works</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="project-hero">
+    <div class="project-hero-content">
+      <p class="project-category">Product · AI Visual</p>
+      <h1 class="project-title">Medical<br>Beauty Device</h1>
+      <div class="project-meta-row">
+        <span class="project-year">2025</span>
+        <span class="project-client-badge">AI-Assisted Product Mockup</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="project-overview">
+    <dl class="overview-meta reveal">
+      <dt>Role</dt>
+      <dd>Prompt Engineering<br>Visual Direction<br>Product Mockup</dd>
+      <dt>Tools</dt>
+      <dd>Nanobana AI<br>Adobe Photoshop<br>Midjourney</dd>
+      <dt>Year</dt>
+      <dd>2025</dd>
+    </dl>
+    <div class="overview-text">
+      <h3 class="reveal">"Product photography without a prototype — using AI image generation to visualise an unrealised device."</h3>
+      <p class="reveal">This project explored the frontier of AI-assisted industrial product visualisation. The brief: create photorealistic product mockups for a concept medical beauty device — a handheld skin therapy tool — without any physical prototype, CAD model, or traditional rendering pipeline.</p>
+      <p class="reveal" style="transition-delay:0.1s">Using Nanobana, a specialised AI image generation tool, the work centred on developing a systematic prompt engineering methodology: controlling surface material (matte silicone, chrome accents), integrating logotype and surface typography directly into the generation process, and orchestrating consistent lighting across multiple product angles.</p>
+      <p class="reveal" style="transition-delay:0.2s">The result is a set of hero product shots indistinguishable from studio photography — achieved in a fraction of the time and cost of traditional product visualisation, while maintaining full creative control over brand language.</p>
+    </div>
+  </section>
+
+  <!-- Main Visual -->
+  <div class="visual-full visual-1 reveal">
+    <p class="visual-label">Hero Product Shot</p>
+  </div>
+
+  <!-- Process -->
+  <section class="project-process">
+    <p class="section-label reveal">Process</p>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <p class="step-num">01</p>
+        <h4 class="step-title">Prompt Architecture</h4>
+        <p class="step-desc">Developed a modular prompt system with locked and variable segments — locked elements controlled material and lighting consistency; variable elements changed angle, environment, and composition.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.08s">
+        <p class="step-num">02</p>
+        <h4 class="step-title">Form Development</h4>
+        <p class="step-desc">Iterated 80+ generations to refine the device's ergonomic form: handle radius, button placement, charging port position. Each iteration evaluated against industrial design principles and aesthetic coherence.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.16s">
+        <p class="step-num">03</p>
+        <h4 class="step-title">Text Integration</h4>
+        <p class="step-desc">Explored methods for embedding surface typography (brand name, regulatory markings) within AI-generated outputs — a technically complex challenge that typically requires post-production compositing. Developed a hybrid AI + Photoshop workflow.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.24s">
+        <p class="step-num">04</p>
+        <h4 class="step-title">Final Renders</h4>
+        <p class="step-desc">Produced 12 final hero shots across 4 colorways and 3 viewing angles, plus a lifestyle shot series showing in-use scenarios. All images passed a blind evaluation against reference studio photography.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deliverables -->
+  <section class="project-deliverables">
+    <p class="section-label reveal">Deliverables</p>
+    <div class="deliverables-grid asymmetric reveal">
+      <div class="visual-full visual-2" style="aspect-ratio:1/1">
+        <p class="visual-label">Product — Front View</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="visual-full visual-3" style="aspect-ratio:4/3">
+          <p class="visual-label">45° Angle Shot</p>
+        </div>
+        <div class="visual-full visual-4" style="aspect-ratio:4/3">
+          <p class="visual-label">Lifestyle Context</p>
+        </div>
+      </div>
+    </div>
+    <div class="deliverables-grid reveal" style="margin-top:24px; transition-delay:0.1s">
+      <div class="visual-full visual-1" style="aspect-ratio:4/3">
+        <p class="visual-label">Colourway Variants</p>
+      </div>
+      <div class="visual-full visual-2" style="aspect-ratio:4/3">
+        <p class="visual-label">Prompt Before / After</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Navigation -->
+  <nav class="project-nav">
+    <a href="ikea.html">
+      <span>←</span>
+      <span class="nav-project-name">IKEA Room for Dreams</span>
+    </a>
+    <a href="sloweat.html" style="text-align:right">
+      <span class="nav-project-name">SLOWEAT</span>
+      <span>→</span>
+    </a>
+  </nav>
+
+  <script src="project.js"></script>
+</body>
+</html>
