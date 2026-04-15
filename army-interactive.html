@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARMY Global Map — Interactive</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #0a0010;
+      color: #f3e8ff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow: hidden;
+    }
+    :root {
+      --purple-light: #c084fc;
+      --purple-mid:   #a855f7;
+      --purple-deep:  #7c3aed;
+      --purple-glow:  #4c1d95;
+      --bg-dark:      #0a0010;
+      --text-main:    #f3e8ff;
+      --text-dim:     #c4b5fd;
+    }
+    #map-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+    #city-layer { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+    #toast-container {
+      position: fixed;
+      bottom: 110px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 30; pointer-events: none;
+      width: min(90vw, 480px);
+    }
+    .toast {
+      background: rgba(15,0,30,.88);
+      border: 1px solid rgba(192,132,252,.5);
+      border-radius: 12px; padding: 10px 18px;
+      font-size: .82rem; color: var(--text-main);
+      text-align: center; backdrop-filter: blur(10px);
+      box-shadow: 0 0 18px rgba(168,85,247,.3);
+      animation: toast-in .3s ease, toast-out .4s ease 2.8s forwards;
+    }
+    @keyframes toast-in  { from { opacity:0; transform:translateY(12px) scale(.94); } to { opacity:1; transform:translateY(0) scale(1); } }
+    @keyframes toast-out { from { opacity:1; } to { opacity:0; transform:translateY(-8px) scale(.96); } }
+    #ui {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; pointer-events: none;
+    }
+    #header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px 12px;
+      background: linear-gradient(to bottom, rgba(10,0,16,.92), transparent);
+    }
+    #header h1 {
+      font-size: clamp(.9rem, 2vw, 1.3rem);
+      font-weight: 700; letter-spacing: .05em;
+      background: linear-gradient(90deg, #e879f9, #a855f7, #818cf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    #global-count {
+      font-size: clamp(.7rem, 1.5vw, .9rem);
+      color: var(--purple-light); text-align: right;
+    }
+    #global-count span {
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      font-weight: 800; color: #f0abfc;
+    }
+    #center {
+      flex: 1; display: flex;
+      align-items: flex-end; justify-content: center;
+      padding-bottom: 28px;
+    }
+    #stream-btn {
+      pointer-events: all; cursor: pointer;
+      border: none; outline: none;
+      padding: 16px 44px; border-radius: 999px;
+      font-size: clamp(.9rem, 2vw, 1.2rem); font-weight: 800;
+      letter-spacing: .06em; color: #fff;
+      background: linear-gradient(135deg, #9333ea, #6d28d9, #4f46e5);
+      box-shadow: 0 0 20px rgba(168,85,247,.7), 0 0 60px rgba(168,85,247,.35), inset 0 1px 0 rgba(255,255,255,.2);
+      transition: transform .12s, box-shadow .12s;
+      position: relative; overflow: hidden;
+    }
+    #stream-btn::after {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.25), transparent 60%);
+    }
+    #stream-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(168,85,247,.9), 0 0 80px rgba(168,85,247,.5), inset 0 1px 0 rgba(255,255,255,.2); }
+    #stream-btn:active { transform: scale(.97); }
+    #leaderboard {
+      pointer-events: all;
+      position: fixed; top: 72px; right: 16px;
+      width: clamp(160px, 20vw, 240px);
+      background: rgba(10,0,16,.75);
+      border: 1px solid rgba(168,85,247,.35);
+      border-radius: 16px; padding: 12px 14px;
+      backdrop-filter: blur(12px); z-index: 20;
+    }
+    #leaderboard h2 {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--purple-light); margin-bottom: 8px;
+    }
+    .lb-row {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 0; border-bottom: 1px solid rgba(168,85,247,.1);
+      font-size: .78rem;
+    }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-rank { width:16px; text-align:center; font-weight:700; font-size:.66rem; color:#a78bfa; }
+    .lb-rank.gold{color:#fbbf24;}.lb-rank.silver{color:#cbd5e1;}.lb-rank.bronze{color:#d97706;}
+    .lb-city { flex:1; color:var(--text-main); }
+    .lb-bar-wrap { width:48px; height:5px; background:rgba(168,85,247,.15); border-radius:3px; overflow:hidden; }
+    .lb-bar { height:100%; background:linear-gradient(90deg,#9333ea,#c084fc); border-radius:3px; transition:width .5s ease; }
+    .lb-val { min-width:30px; text-align:right; font-size:.68rem; color:var(--text-dim); font-variant-numeric:tabular-nums; }
+    .city-dot {
+      position: absolute; width:7px; height:7px; border-radius:50%;
+      background:var(--purple-mid); box-shadow:0 0 7px var(--purple-mid);
+      transform:translate(-50%,-50%); pointer-events:all; cursor:pointer; z-index:15;
+      transition:box-shadow .2s;
+    }
+    .city-dot:hover { box-shadow:0 0 16px var(--purple-light), 0 0 5px #fff; }
+    .city-label {
+      position:absolute; font-size:.58rem; color:var(--purple-light);
+      white-space:nowrap; transform:translateX(-50%); top:9px;
+      pointer-events:none; text-shadow:0 0 5px #4c1d95;
+    }
+    @keyframes pulse-ring {
+      0%   { transform:translate(-50%,-50%) scale(.8); opacity:.7; }
+      100% { transform:translate(-50%,-50%) scale(3);  opacity:0; }
+    }
+    .pulse-ring {
+      position:absolute; width:7px; height:7px; border-radius:50%;
+      border:2px solid var(--purple-light); transform:translate(-50%,-50%);
+      animation:pulse-ring 1.4s ease-out infinite; pointer-events:none; z-index:14;
+    }
+  </style>
+</head>
+<body>
+<canvas id="map-canvas"></canvas>
+<div id="city-layer"></div>
+<div id="toast-container"></div>
+<div id="ui">
+  <div id="header">
+    <h1>💜 보랏빛 바다 채우기 · ARMY Global Map</h1>
+    <div id="global-count">전 세계 스밍 인증<br><span id="count-display">0</span> 개</div>
+  </div>
+  <div id="center">
+    <button id="stream-btn">💜 스밍 인증하기</button>
+  </div>
+</div>
+<div id="leaderboard">
+  <h2>🏆 도시 순위</h2>
+  <div id="lb-list"></div>
+</div>
+
+<script>
+const CITIES = [
+  {id:'seoul',name:'서울',lat:37.56,lon:126.98},{id:'tokyo',name:'도쿄',lat:35.68,lon:139.69},
+  {id:'busan',name:'부산',lat:35.10,lon:129.04},{id:'newyork',name:'뉴욕',lat:40.71,lon:-74.01},
+  {id:'london',name:'런던',lat:51.51,lon:-0.13},{id:'paris',name:'파리',lat:48.85,lon:2.35},
+  {id:'jakarta',name:'자카르타',lat:-6.21,lon:106.85},{id:'bangkok',name:'방콕',lat:13.76,lon:100.50},
+  {id:'manila',name:'마닐라',lat:14.60,lon:120.98},{id:'sydney',name:'시드니',lat:-33.87,lon:151.21},
+  {id:'losangeles',name:'LA',lat:34.05,lon:-118.24},{id:'chicago',name:'시카고',lat:41.88,lon:-87.63},
+  {id:'saopaulo',name:'상파울루',lat:-23.55,lon:-46.63},{id:'mexico',name:'멕시코시티',lat:19.43,lon:-99.13},
+  {id:'toronto',name:'토론토',lat:43.65,lon:-79.38},{id:'berlin',name:'베를린',lat:52.52,lon:13.41},
+  {id:'moscow',name:'모스크바',lat:55.75,lon:37.62},{id:'dubai',name:'두바이',lat:25.20,lon:55.27},
+  {id:'singapore',name:'싱가포르',lat:1.35,lon:103.82},{id:'hongkong',name:'홍콩',lat:22.32,lon:114.17},
+  {id:'taipei',name:'타이베이',lat:25.04,lon:121.56},{id:'mumbai',name:'뭄바이',lat:19.08,lon:72.88},
+  {id:'cairo',name:'카이로',lat:30.04,lon:31.24},{id:'nairobi',name:'나이로비',lat:-1.29,lon:36.82},
+  {id:'bogota',name:'보고타',lat:4.71,lon:-74.07},
+];
+const state = { total:0, cities:Object.fromEntries(CITIES.map(c=>[c.id,0])), glowMap:{} };
+const canvas=document.getElementById('map-canvas');
+const ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;drawMap();}
+window.addEventListener('resize',resize);
+function latLonToXY(lat,lon){return{x:((lon+180)/360)*W,y:((90-lat)/180)*H};}
+const LANDS=[
+  {pts:[[-168,72],[-140,60],[-130,55],[-124,49],[-117,32],[-97,26],[-80,25],[-79,43],[-76,44],[-66,45],[-53,47],[-54,54],[-65,60],[-68,68],[-100,70],[-140,70],[-168,72]]},
+  {pts:[[-73,76],[-25,84],[-18,78],[-20,70],[-44,60],[-53,65],[-73,76]]},
+  {pts:[[-81,8],[-78,-1],[-72,-18],[-65,-55],[-55,-53],[-48,-28],[-35,-8],[-50,5],[-63,10],[-81,8]]},
+  {pts:[[-9,36],[3,36],[13,38],[30,42],[30,50],[20,55],[10,55],[5,52],[-2,50],[-5,44],[-9,39],[-9,36]]},
+  {pts:[[5,58],[15,58],[28,65],[30,70],[26,72],[18,70],[8,63],[5,58]]},
+  {pts:[[-17,15],[0,10],[10,5],[40,10],[50,12],[44,-10],[35,-20],[20,-35],[18,-34],[10,-18],[0,5],[-15,5],[-17,15]]},
+  {pts:[[30,50],[60,50],[90,50],[130,50],[140,60],[160,60],[168,64],[168,70],[140,72],[100,75],[60,72],[30,68],[20,60],[30,55],[30,50]]},
+  {pts:[[36,37],[48,30],[60,22],[58,14],[45,12],[38,12],[32,29],[36,37]]},
+  {pts:[[60,22],[80,24],[92,22],[100,14],[80,8],[72,10],[66,24],[60,22]]},
+  {pts:[[100,14],[110,18],[120,20],[125,10],[120,2],[106,-6],[100,2],[100,14]]},
+  {pts:[[100,50],[110,40],[120,30],[122,32],[128,38],[130,42],[128,50],[116,54],[100,52],[100,50]]},
+  {pts:[[130,31],[132,34],[136,36],[141,40],[141,44],[138,45],[134,42],[130,34],[130,31]]},
+  {pts:[[114,-22],[122,-34],[130,-32],[148,-38],[154,-26],[148,-18],[136,-12],[124,-15],[114,-22]]},
+  {pts:[[172,-34],[174,-36],[172,-44],[170,-46],[168,-43],[170,-36],[172,-34]]},
+];
+const stars=Array.from({length:180},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.2,a:Math.random()*.6+.2,speed:Math.random()*2+.5,phase:Math.random()*Math.PI*2}));
+function drawMap(){
+  ctx.clearRect(0,0,W,H);
+  const bg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.7);
+  bg.addColorStop(0,'#0e0018');bg.addColorStop(.5,'#080012');bg.addColorStop(1,'#04000c');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  ctx.save();
+  for(const s of stars){ctx.globalAlpha=s.a*(.6+.4*Math.sin(Date.now()*.001*s.speed+s.phase));ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);ctx.fill();}
+  ctx.restore();
+  ctx.save();ctx.strokeStyle='rgba(139,92,246,.06)';ctx.lineWidth=.5;
+  for(let lon=-180;lon<=180;lon+=30){const{x}=latLonToXY(0,lon);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let lat=-90;lat<=90;lat+=30){const{y}=latLonToXY(lat,0);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.restore();
+  for(const land of LANDS){ctx.beginPath();let first=true;for(const[lon,lat]of land.pts){const{x,y}=latLonToXY(lat,lon);if(first){ctx.moveTo(x,y);first=false;}else ctx.lineTo(x,y);}ctx.closePath();ctx.fillStyle='rgba(88,28,135,.28)';ctx.fill();ctx.strokeStyle='rgba(139,92,246,.35)';ctx.lineWidth=.8;ctx.stroke();}
+  for(const city of CITIES){const intensity=state.glowMap[city.id]||0;if(intensity<.01)continue;const{x,y}=latLonToXY(city.lat,city.lon);const r=30+intensity*120;const glow=ctx.createRadialGradient(x,y,0,x,y,r);glow.addColorStop(0,`rgba(192,132,252,${(.6*intensity).toFixed(3)})`);glow.addColorStop(.4,`rgba(147,51,234,${(.35*intensity).toFixed(3)})`);glow.addColorStop(1,'rgba(76,29,149,0)');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
+}
+const particles=[];
+function spawnParticles(x,y,count=28){
+  for(let i=0;i<count;i++){const angle=Math.random()*Math.PI*2;const speed=1.5+Math.random()*4;const hue=260+Math.random()*50;particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,decay:.018+Math.random()*.022,r:1.5+Math.random()*3,color:`hsl(${hue},80%,${65+Math.random()*20}%)`,glow:Math.random()>.5});}
+  for(let i=0;i<12;i++){const angle=(i/12)*Math.PI*2;particles.push({x,y,vx:Math.cos(angle)*(2+Math.random()),vy:Math.sin(angle)*(2+Math.random()),life:1,decay:.025,r:2,color:'#e879f9',glow:true});}
+}
+function updateParticles(){for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.94;p.vy*=.94;p.vy+=.04;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}}
+function drawParticles(){for(const p of particles){ctx.save();ctx.globalAlpha=p.life;if(p.glow){ctx.shadowColor=p.color;ctx.shadowBlur=8;}ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();ctx.restore();}}
+const ripples=[];
+function spawnRipple(x,y){ripples.push({x,y,r:0,life:1});}
+function updateRipples(){for(let i=ripples.length-1;i>=0;i--){ripples[i].r+=2.5;ripples[i].life-=.025;if(ripples[i].life<=0)ripples.splice(i,1);}}
+function drawRipples(){for(const rp of ripples){ctx.save();ctx.globalAlpha=rp.life*.7;ctx.strokeStyle='#c084fc';ctx.lineWidth=1.5;ctx.shadowColor='#a855f7';ctx.shadowBlur=6;ctx.beginPath();ctx.arc(rp.x,rp.y,rp.r,0,Math.PI*2);ctx.stroke();ctx.restore();}}
+function loop(){drawMap();updateRipples();drawRipples();updateParticles();drawParticles();requestAnimationFrame(loop);}
+const cityLayer=document.getElementById('city-layer');
+const cityEls={};
+function buildCityDots(){cityLayer.innerHTML='';for(const city of CITIES){const{x,y}=latLonToXY(city.lat,city.lon);const wrap=document.createElement('div');wrap.style.cssText=`position:absolute;left:${x}px;top:${y}px;`;const ring=document.createElement('div');ring.className='pulse-ring';ring.style.animationDelay=`${Math.random()*1.4}s`;const dot=document.createElement('div');dot.className='city-dot';dot.title=city.name;dot.addEventListener('click',()=>triggerCity(city.id));const label=document.createElement('div');label.className='city-label';label.textContent=city.name;wrap.appendChild(ring);wrap.appendChild(dot);wrap.appendChild(label);cityLayer.appendChild(wrap);cityEls[city.id]={wrap,dot,ring};}}
+function repositionCityDots(){for(const city of CITIES){const{x,y}=latLonToXY(city.lat,city.lon);if(cityEls[city.id]){cityEls[city.id].wrap.style.left=`${x}px`;cityEls[city.id].wrap.style.top=`${y}px`;}}}
+window.addEventListener('resize',repositionCityDots);
+const lbList=document.getElementById('lb-list');
+function updateLeaderboard(){const sorted=CITIES.map(c=>({...c,count:state.cities[c.id]||0})).sort((a,b)=>b.count-a.count).slice(0,8);const maxVal=sorted[0]?.count||1;lbList.innerHTML='';sorted.forEach((c,i)=>{const rankClass=i===0?'gold':i===1?'silver':i===2?'bronze':'';const pct=Math.max(3,(c.count/maxVal)*100);const row=document.createElement('div');row.className='lb-row';row.innerHTML=`<div class="lb-rank ${rankClass}">${i+1}</div><div class="lb-city">${c.name}</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:${pct}%"></div></div><div class="lb-val">${c.count.toLocaleString()}</div>`;lbList.appendChild(row);});}
+const toastContainer=document.getElementById('toast-container');
+function showToast(msg){const el=document.createElement('div');el.className='toast';el.textContent=msg;toastContainer.appendChild(el);setTimeout(()=>el.remove(),3300);}
+const MILESTONES=[10,50,100,250,500,1000,2000,5000,10000];
+const cityMilestones={};
+function checkMilestones(cityId,count){if(!cityMilestones[cityId])cityMilestones[cityId]=new Set();const city=CITIES.find(c=>c.id===cityId);for(const m of MILESTONES){if(count>=m&&!cityMilestones[cityId].has(m)){cityMilestones[cityId].add(m);showToast(`🎉 ${city.name}에 보라색 등이 ${m.toLocaleString()}개 켜졌어요!`);}}}
+function challengeToast(){const sorted=CITIES.map(c=>({...c,count:state.cities[c.id]})).sort((a,b)=>b.count-a.count);if(sorted.length<2||sorted[1].count<1)return;const gap=sorted[0].count-sorted[1].count;if(gap<5)return;showToast(`⚡ ${sorted[1].name}이/가 ${sorted[0].name}을 ${gap}개 차이로 쫓고 있어요!`);}
+let challengeTimer=0;
+const countDisplay=document.getElementById('count-display');
+function triggerCity(cityId,fromButton=false){const city=CITIES.find(c=>c.id===cityId);const{x,y}=latLonToXY(city.lat,city.lon);state.cities[cityId]=(state.cities[cityId]||0)+1;state.total++;state.glowMap[cityId]=Math.min(1,(state.glowMap[cityId]||0)+.04);spawnParticles(x,y,fromButton?40:20);spawnRipple(x,y);countDisplay.textContent=state.total.toLocaleString();updateLeaderboard();checkMilestones(cityId,state.cities[cityId]);}
+setInterval(()=>{for(const k of Object.keys(state.glowMap))state.glowMap[k]=Math.max(0,state.glowMap[k]-.003);},100);
+setInterval(()=>{challengeTimer++;if(challengeTimer%3===0)challengeToast();},5000);
+let userCityId=null;
+function detectNearestCity(lat,lon){let best=null,bestDist=Infinity;for(const c of CITIES){const d=Math.hypot(c.lat-lat,c.lon-lon);if(d<bestDist){bestDist=d;best=c.id;}}return best;}
+if(navigator.geolocation){navigator.geolocation.getCurrentPosition(pos=>{userCityId=detectNearestCity(pos.coords.latitude,pos.coords.longitude);const city=CITIES.find(c=>c.id===userCityId);showToast(`📍 위치 감지됨: ${city.name} 💜`);},()=>{userCityId='seoul';});}else{userCityId='seoul';}
+document.getElementById('stream-btn').addEventListener('click',()=>{const cid=userCityId||'seoul';triggerCity(cid,true);if(Math.random()<.35){const others=CITIES.filter(c=>c.id!==cid);const rnd=others[Math.floor(Math.random()*others.length)];setTimeout(()=>triggerCity(rnd.id),200+Math.random()*400);}});
+function simulateOthers(){const city=CITIES[Math.floor(Math.random()*CITIES.length)];triggerCity(city.id);}
+setInterval(simulateOthers,800+Math.random()*1200);
+setInterval(simulateOthers,1200+Math.random()*2000);
+resize();buildCityDots();updateLeaderboard();loop();
+(function seed(){const seeds=[['seoul',8],['tokyo',6],['newyork',4],['london',3],['paris',2],['jakarta',3],['bangkok',2],['manila',3]];for(const[id,n]of seeds){for(let i=0;i<n;i++)state.cities[id]=(state.cities[id]||0)+1;state.total+=seeds.find(s=>s[0]===id)[1];state.glowMap[id]=Math.min(1,seeds.find(s=>s[0]===id)[1]*.05);}countDisplay.textContent=state.total.toLocaleString();updateLeaderboard();})();
+showToast('💜 전 세계 아미와 함께 보랏빛 바다를 만들어요!');
+</script>
+</body>
+</html>

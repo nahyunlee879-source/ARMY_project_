@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SLOWEAT — Nayul</title>
+  <link rel="stylesheet" href="project.css" />
+  <style>
+    .project-hero { background: #D4CDB8; color: var(--charcoal); }
+    .project-hero .project-category { color: #6B6558; }
+    .vis-bg-1 { background: #C8C2AE; }
+    .vis-bg-2 { background: #B8B2A0; }
+    .vis-bg-3 { background: #D8D2C0; }
+    .vis-bg-4 { background: #E4DED0; }
+    .vis-block {
+      width: 100%;
+      display: block;
+      overflow: hidden;
+    }
+    .vis-block svg { display: block; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div id="scroll-progress"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">Nayul</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#works">Works</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#works" class="back-link">← All Works</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="project-hero">
+    <div class="project-hero-content">
+      <p class="project-category">Packaging · Branding</p>
+      <h1 class="project-title">SLOWEAT</h1>
+      <div class="project-meta-row">
+        <span class="project-year">2024</span>
+        <span class="project-client-badge">Academic Project</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="project-overview">
+    <dl class="overview-meta reveal">
+      <dt>Role</dt>
+      <dd>Packaging Design<br>Brand Identity<br>Structural Design</dd>
+      <dt>Tools</dt>
+      <dd>Adobe Illustrator<br>Rhinoceros<br>Photoshop</dd>
+      <dt>Year</dt>
+      <dd>2024</dd>
+    </dl>
+    <div class="overview-text">
+      <h3 class="reveal">"What if packaging could teach children to eat slowly?"</h3>
+      <p class="reveal">SLOWEAT is an children's snack brand built around a single behavioural insight: eating too fast is a learned habit, not a fixed one. The packaging is the product. Through deliberate structural design, every SLOWEAT box requires a small ritual to open — slowing the child down before the first bite.</p>
+      <p class="reveal" style="transition-delay:0.1s">The identity system bridges warmth and simplicity: an earthy olive palette, tactile paper finishes, and rounded type that feels approachable without being childish. The structural packaging mechanic — a folded paper drawer that unfolds one compartment at a time — physically embeds the brand's philosophy into the user experience.</p>
+    </div>
+  </section>
+
+  <!-- Main Visual: Packaging Hero -->
+  <div class="vis-block vis-bg-1 reveal">
+    <svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="675" fill="#C8C2AE"/>
+      <!-- Background circles -->
+      <circle cx="950" cy="120" r="220" fill="#D4CDB8" opacity="0.5"/>
+      <circle cx="180" cy="560" r="160" fill="#B8B2A0" opacity="0.35"/>
+      <!-- Isometric box — main package -->
+      <g transform="translate(360, 80)">
+        <!-- Front face -->
+        <polygon points="0,160 180,60 180,340 0,440" fill="#E8E2D4" stroke="#A8A298" stroke-width="1.2"/>
+        <!-- Top face -->
+        <polygon points="0,160 180,60 380,160 200,260" fill="#F0EBE0" stroke="#A8A298" stroke-width="1.2"/>
+        <!-- Right face -->
+        <polygon points="180,60 380,160 380,440 180,340" fill="#C4BEB0" stroke="#A8A298" stroke-width="1.2"/>
+        <!-- Front label area -->
+        <rect x="24" y="200" width="132" height="180" rx="4" fill="#D4CDB8" opacity="0.6"/>
+        <!-- Brand name on box -->
+        <text x="38" y="270" font-family="Georgia, serif" font-size="20" font-style="italic" fill="#6B6558" letter-spacing="2">SLOW</text>
+        <text x="38" y="296" font-family="Georgia, serif" font-size="20" font-style="italic" fill="#6B6558" letter-spacing="2">EAT</text>
+        <!-- Leaf motif on front -->
+        <path d="M100,330 Q120,300 140,330 Q120,345 100,330Z" fill="#8A9070" opacity="0.5"/>
+        <path d="M108,330 Q112,305 128,320" stroke="#8A9070" stroke-width="1" fill="none" opacity="0.6"/>
+        <!-- Drawer pull detail -->
+        <line x1="40" y1="380" x2="132" y2="380" stroke="#A8A298" stroke-width="1" stroke-dasharray="4,3"/>
+      </g>
+      <!-- Second box (smaller, behind) -->
+      <g transform="translate(620, 140)">
+        <polygon points="0,120 130,45 130,255 0,330" fill="#DCd6C8" stroke="#A8A298" stroke-width="1"/>
+        <polygon points="0,120 130,45 280,120 150,195" fill="#E8E2D4" stroke="#A8A298" stroke-width="1"/>
+        <polygon points="130,45 280,120 280,330 130,255" fill="#BEB8AA" stroke="#A8A298" stroke-width="1"/>
+        <text x="16" y="180" font-family="Georgia, serif" font-size="14" font-style="italic" fill="#8A8178" letter-spacing="1.5">SLOW</text>
+        <text x="16" y="200" font-family="Georgia, serif" font-size="14" font-style="italic" fill="#8A8178" letter-spacing="1.5">EAT</text>
+      </g>
+      <!-- Floating leaf elements -->
+      <g opacity="0.45">
+        <ellipse cx="200" cy="200" rx="28" ry="14" fill="#8A9070" transform="rotate(-30,200,200)"/>
+        <line x1="200" y1="214" x2="200" y2="186" stroke="#8A9070" stroke-width="1"/>
+        <ellipse cx="260" cy="160" rx="18" ry="9" fill="#8A9070" transform="rotate(15,260,160)"/>
+        <ellipse cx="950" cy="380" rx="36" ry="18" fill="#8A9070" transform="rotate(-20,950,380)"/>
+        <ellipse cx="1000" cy="340" rx="22" ry="11" fill="#8A9070" transform="rotate(10,1000,340)"/>
+        <ellipse cx="920" cy="420" rx="16" ry="8" fill="#8A9070" transform="rotate(-40,920,420)"/>
+      </g>
+      <!-- Tagline -->
+      <text x="100" y="560" font-family="Georgia, serif" font-size="13" font-style="italic" fill="#6B6558" letter-spacing="3" opacity="0.7">Eat slower. Live fuller.</text>
+      <!-- Corner label -->
+      <text x="1060" y="620" font-family="Arial, sans-serif" font-size="10" fill="#8A8178" letter-spacing="1" opacity="0.5" text-anchor="middle">Packaging Mockup — Full Spread</text>
+    </svg>
+  </div>
+
+  <!-- Process -->
+  <section class="project-process">
+    <p class="section-label reveal">Process</p>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <p class="step-num">01</p>
+        <h4 class="step-title">Research</h4>
+        <p class="step-desc">Childhood eating psychology, slow-food movement references, and existing snack packaging audit. Identified the gap between fun packaging and mindful eating.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.08s">
+        <p class="step-num">02</p>
+        <h4 class="step-title">Concept</h4>
+        <p class="step-desc">Explored three directions: timer-based portioning, story-based packaging, and structural friction. The friction mechanic was chosen for its tactile engagement.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.16s">
+        <p class="step-num">03</p>
+        <h4 class="step-title">Development</h4>
+        <p class="step-desc">Paper engineering prototypes — 12 iterations of the drawer fold mechanism. Parallel development of visual identity, typeface selection, and illustrated pattern system.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.24s">
+        <p class="step-num">04</p>
+        <h4 class="step-title">Final</h4>
+        <p class="step-desc">Complete packaging system across 3 SKUs, brand guidelines, retail shelf mockup, and pattern application across secondary packaging and stickers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deliverables -->
+  <section class="project-deliverables">
+    <p class="section-label reveal">Deliverables</p>
+    <div class="deliverables-grid asymmetric reveal" style="align-items:stretch">
+      <!-- Unfolded structure -->
+      <div class="vis-block vis-bg-2" style="min-height:360px">
+        <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" style="height:100%;min-height:360px">
+          <rect width="600" height="500" fill="#B8B2A0"/>
+          <text x="300" y="56" font-family="Arial" font-size="10" fill="#6B6558" letter-spacing="2" text-anchor="middle" opacity="0.6">PACKAGING STRUCTURE</text>
+          <!-- Flat die-cut line art -->
+          <g fill="none" stroke="#8A8178" stroke-width="1.2">
+            <!-- Center panel -->
+            <rect x="180" y="80" width="140" height="180"/>
+            <!-- Left panel -->
+            <rect x="80" y="80" width="100" height="180"/>
+            <!-- Right panel -->
+            <rect x="320" y="80" width="100" height="180"/>
+            <!-- Top flap -->
+            <rect x="180" y="40" width="140" height="40"/>
+            <!-- Bottom flap -->
+            <rect x="180" y="260" width="140" height="50"/>
+            <!-- Drawer piece -->
+            <rect x="160" y="340" width="180" height="120"/>
+            <!-- Fold lines (dashed) -->
+            <line x1="180" y1="80" x2="180" y2="260" stroke-dasharray="5,3"/>
+            <line x1="320" y1="80" x2="320" y2="260" stroke-dasharray="5,3"/>
+            <line x1="180" y1="80" x2="320" y2="80" stroke-dasharray="5,3"/>
+          </g>
+          <!-- Labels -->
+          <text x="250" y="178" font-family="Georgia, serif" font-size="11" font-style="italic" fill="#8A8178" text-anchor="middle">Front</text>
+          <text x="130" y="178" font-family="Georgia, serif" font-size="11" font-style="italic" fill="#8A8178" text-anchor="middle">Side</text>
+          <text x="370" y="178" font-family="Georgia, serif" font-size="11" font-style="italic" fill="#8A8178" text-anchor="middle">Side</text>
+          <text x="250" y="408" font-family="Georgia, serif" font-size="11" font-style="italic" fill="#8A8178" text-anchor="middle">Drawer</text>
+          <!-- Leaf pattern on center -->
+          <g opacity="0.3">
+            <ellipse cx="230" cy="155" rx="18" ry="9" fill="#8A9070" transform="rotate(-20,230,155)"/>
+            <ellipse cx="270" cy="170" rx="14" ry="7" fill="#8A9070" transform="rotate(15,270,170)"/>
+            <ellipse cx="255" cy="135" rx="16" ry="8" fill="#8A9070" transform="rotate(-35,255,135)"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Logo + Pattern -->
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="vis-block vis-bg-3" style="flex:1">
+          <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="220" fill="#D8D2C0"/>
+            <text x="200" y="36" font-family="Arial" font-size="9" fill="#8A8178" letter-spacing="2" text-anchor="middle" opacity="0.6">LOGO SYSTEM</text>
+            <!-- Logo mark -->
+            <circle cx="200" cy="115" r="52" fill="none" stroke="#6B6558" stroke-width="1.5"/>
+            <text x="200" y="108" font-family="Georgia, serif" font-size="18" font-style="italic" fill="#6B6558" text-anchor="middle" letter-spacing="2">SLOW</text>
+            <text x="200" y="130" font-family="Georgia, serif" font-size="18" font-style="italic" fill="#6B6558" text-anchor="middle" letter-spacing="2">EAT</text>
+            <!-- Small leaf in circle -->
+            <ellipse cx="244" cy="88" rx="10" ry="5" fill="#8A9070" transform="rotate(-30,244,88)" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="vis-block vis-bg-4" style="flex:1">
+          <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="220" fill="#E4DED0"/>
+            <text x="200" y="36" font-family="Arial" font-size="9" fill="#8A8178" letter-spacing="2" text-anchor="middle" opacity="0.6">PATTERN LANGUAGE</text>
+            <!-- Repeating leaf pattern -->
+            <g opacity="0.4">
+              <ellipse cx="60" cy="100" rx="22" ry="11" fill="#8A9070" transform="rotate(-25,60,100)"/>
+              <ellipse cx="120" cy="130" rx="18" ry="9" fill="#8A9070" transform="rotate(15,120,130)"/>
+              <ellipse cx="180" cy="90" rx="24" ry="12" fill="#8A9070" transform="rotate(-40,180,90)"/>
+              <ellipse cx="240" cy="140" rx="16" ry="8" fill="#8A9070" transform="rotate(5,240,140)"/>
+              <ellipse cx="300" cy="100" rx="20" ry="10" fill="#8A9070" transform="rotate(-15,300,100)"/>
+              <ellipse cx="350" cy="130" rx="14" ry="7" fill="#8A9070" transform="rotate(30,350,130)"/>
+              <ellipse cx="90" cy="160" rx="16" ry="8" fill="#8A9070" transform="rotate(-10,90,160)"/>
+              <ellipse cx="200" cy="155" rx="20" ry="10" fill="#8A9070" transform="rotate(20,200,155)"/>
+              <ellipse cx="320" cy="155" rx="18" ry="9" fill="#8A9070" transform="rotate(-30,320,155)"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- Shelf mockup -->
+    <div class="vis-block vis-bg-1 reveal" style="margin-top:20px">
+      <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1200" height="400" fill="#C8C2AE"/>
+        <text x="600" y="36" font-family="Arial" font-size="10" fill="#6B6558" letter-spacing="2" text-anchor="middle" opacity="0.6">RETAIL SHELF DISPLAY</text>
+        <!-- Shelf surface -->
+        <rect x="0" y="300" width="1200" height="12" fill="#A8A298"/>
+        <!-- 6 boxes on shelf -->
+        <g transform="translate(120, 100)">
+          <g><!-- Box 1 -->
+            <polygon points="0,120 90,70 90,270 0,320" fill="#E8E2D4" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="0,120 90,70 180,120 90,170" fill="#F0EBE0" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="90,70 180,120 180,320 90,270" fill="#C4BEB0" stroke="#A8A298" stroke-width="0.8"/>
+            <text x="18" y="190" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">SLOW</text>
+            <text x="18" y="206" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">EAT</text>
+          </g>
+          <g transform="translate(185,0)">
+            <polygon points="0,120 90,70 90,270 0,320" fill="#E0DAC8" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="0,120 90,70 180,120 90,170" fill="#EBE6D8" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="90,70 180,120 180,320 90,270" fill="#BCBA A8" stroke="#A8A298" stroke-width="0.8"/>
+            <text x="18" y="190" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">SLOW</text>
+            <text x="18" y="206" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">EAT</text>
+          </g>
+          <g transform="translate(370,0)">
+            <polygon points="0,120 90,70 90,270 0,320" fill="#EAE4D4" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="0,120 90,70 180,120 90,170" fill="#F2EDE0" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="90,70 180,120 180,320 90,270" fill="#C8C2B2" stroke="#A8A298" stroke-width="0.8"/>
+            <text x="18" y="190" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">SLOW</text>
+            <text x="18" y="206" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">EAT</text>
+          </g>
+          <g transform="translate(555,0)">
+            <polygon points="0,120 90,70 90,270 0,320" fill="#E4DECC" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="0,120 90,70 180,120 90,170" fill="#ECE7D8" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="90,70 180,120 180,320 90,270" fill="#C2BCAC" stroke="#A8A298" stroke-width="0.8"/>
+            <text x="18" y="190" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">SLOW</text>
+            <text x="18" y="206" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">EAT</text>
+          </g>
+          <g transform="translate(740,0)">
+            <polygon points="0,120 90,70 90,270 0,320" fill="#E8E2D4" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="0,120 90,70 180,120 90,170" fill="#F0EBE0" stroke="#A8A298" stroke-width="0.8"/>
+            <polygon points="90,70 180,120 180,320 90,270" fill="#C4BEB0" stroke="#A8A298" stroke-width="0.8"/>
+            <text x="18" y="190" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">SLOW</text>
+            <text x="18" y="206" font-family="Georgia,serif" font-size="10" font-style="italic" fill="#8A8178">EAT</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="index.html#works"><span>←</span><span>All Works</span></a>
+    <a href="mirco.html" style="text-align:right">
+      <span class="nav-project-name">MIRCO</span><span>→</span>
+    </a>
+  </nav>
+
+  <script src="project.js"></script>
+</body>
+</html>

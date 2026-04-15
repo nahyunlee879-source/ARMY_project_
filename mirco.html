@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIRCO — Nayul</title>
+  <link rel="stylesheet" href="project.css" />
+  <style>
+    .project-hero { background: #8A8178; color: var(--white); }
+    .project-hero .project-category { color: rgba(253,250,247,0.65); }
+    .project-hero .project-year,
+    .project-hero .project-client-badge { color: rgba(253,250,247,0.6); }
+    .project-hero .project-client-badge { border-color: rgba(253,250,247,0.35); }
+    .vis-block { width:100%; display:block; overflow:hidden; }
+    .vis-block svg { display:block; width:100%; height:auto; }
+  </style>
+</head>
+<body>
+  <div id="scroll-progress"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="navbar" class="dark">
+    <a href="index.html" class="nav-logo">Nayul</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#works">Works</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#works" class="back-link">← All Works</a>
+    </div>
+  </nav>
+
+  <section class="project-hero">
+    <div class="project-hero-content">
+      <p class="project-category">Branding</p>
+      <h1 class="project-title">MIRCO</h1>
+      <div class="project-meta-row">
+        <span class="project-year">2024</span>
+        <span class="project-client-badge">Brand Identity Project</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-overview">
+    <dl class="overview-meta reveal">
+      <dt>Role</dt>
+      <dd>Brand Identity<br>Mascot Design<br>Visual System</dd>
+      <dt>Tools</dt>
+      <dd>Adobe Illustrator<br>Photoshop<br>InDesign</dd>
+      <dt>Year</dt>
+      <dd>2024</dd>
+    </dl>
+    <div class="overview-text">
+      <h3 class="reveal">"Mir & Co. — a universe of characters, one cohesive world."</h3>
+      <p class="reveal">MIRCO is the comprehensive brand identity system for Mir & Co., a character-driven lifestyle brand built around a mascot ecosystem called Bubble Planet. Each product category corresponds to a distinct planet — and each planet has its own character, colour, and personality.</p>
+      <p class="reveal" style="transition-delay:0.1s">The design challenge was creating a system flexible enough to accommodate unlimited future characters, while maintaining visual cohesion. The solution: a modular logo architecture, a strict planetary colour taxonomy, and a set of construction rules that govern how characters can evolve across categories.</p>
+    </div>
+  </section>
+
+  <!-- Brand System Overview -->
+  <div class="vis-block reveal" style="background:#7A7570">
+    <svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="675" fill="#7A7570"/>
+      <!-- Soft glow BG -->
+      <circle cx="600" cy="338" r="400" fill="#8A8178" opacity="0.3"/>
+      <text x="600" y="44" font-family="Arial" font-size="10" fill="rgba(253,250,247,0.4)" letter-spacing="3" text-anchor="middle">BUBBLE PLANET — BRAND SYSTEM</text>
+
+      <!-- Planet orbits -->
+      <circle cx="600" cy="338" r="260" fill="none" stroke="rgba(253,250,247,0.08)" stroke-width="1" stroke-dasharray="6,4"/>
+      <circle cx="600" cy="338" r="180" fill="none" stroke="rgba(253,250,247,0.06)" stroke-width="1" stroke-dasharray="4,4"/>
+
+      <!-- Central logo bubble -->
+      <circle cx="600" cy="338" r="88" fill="#9A9590" stroke="rgba(253,250,247,0.25)" stroke-width="1.5"/>
+      <text x="600" y="328" font-family="Georgia,serif" font-size="22" font-style="italic" fill="rgba(253,250,247,0.9)" text-anchor="middle" letter-spacing="2">Mir</text>
+      <text x="600" y="354" font-family="Georgia,serif" font-size="22" font-style="italic" fill="rgba(253,250,247,0.9)" text-anchor="middle" letter-spacing="2">&amp; Co.</text>
+
+      <!-- Planet 1 — top -->
+      <circle cx="600" cy="158" r="52" fill="#C9A89A" opacity="0.85"/>
+      <circle cx="600" cy="158" r="36" fill="none" stroke="rgba(253,250,247,0.4)" stroke-width="1"/>
+      <!-- Face in bubble -->
+      <circle cx="590" cy="153" r="5" fill="rgba(253,250,247,0.7)"/>
+      <circle cx="610" cy="153" r="5" fill="rgba(253,250,247,0.7)"/>
+      <path d="M590,165 Q600,173 610,165" stroke="rgba(253,250,247,0.7)" stroke-width="1.5" fill="none"/>
+
+      <!-- Planet 2 — right -->
+      <circle cx="830" cy="338" r="52" fill="#C4A882" opacity="0.85"/>
+      <circle cx="830" cy="338" r="36" fill="none" stroke="rgba(253,250,247,0.4)" stroke-width="1"/>
+      <circle cx="820" cy="333" r="5" fill="rgba(253,250,247,0.7)"/>
+      <circle cx="840" cy="333" r="5" fill="rgba(253,250,247,0.7)"/>
+      <path d="M820,345 Q830,353 840,345" stroke="rgba(253,250,247,0.7)" stroke-width="1.5" fill="none"/>
+
+      <!-- Planet 3 — bottom -->
+      <circle cx="600" cy="518" r="52" fill="#A0A8C8" opacity="0.85"/>
+      <circle cx="600" cy="518" r="36" fill="none" stroke="rgba(253,250,247,0.4)" stroke-width="1"/>
+      <circle cx="590" cy="513" r="5" fill="rgba(253,250,247,0.7)"/>
+      <circle cx="610" cy="513" r="5" fill="rgba(253,250,247,0.7)"/>
+      <path d="M590,525 Q600,533 610,525" stroke="rgba(253,250,247,0.7)" stroke-width="1.5" fill="none"/>
+
+      <!-- Planet 4 — left -->
+      <circle cx="370" cy="338" r="52" fill="#B8C8A0" opacity="0.85"/>
+      <circle cx="370" cy="338" r="36" fill="none" stroke="rgba(253,250,247,0.4)" stroke-width="1"/>
+      <circle cx="360" cy="333" r="5" fill="rgba(253,250,247,0.7)"/>
+      <circle cx="380" cy="333" r="5" fill="rgba(253,250,247,0.7)"/>
+      <path d="M360,345 Q370,353 380,345" stroke="rgba(253,250,247,0.7)" stroke-width="1.5" fill="none"/>
+
+      <!-- Outer satellites -->
+      <circle cx="780" cy="178" r="28" fill="#D8C8B8" opacity="0.6"/>
+      <circle cx="420" cy="178" r="22" fill="#D0C0B0" opacity="0.5"/>
+      <circle cx="800" cy="498" r="25" fill="#C0C8D8" opacity="0.55"/>
+      <circle cx="400" cy="498" r="20" fill="#B8D0B8" opacity="0.5"/>
+
+      <!-- MIRCO wordmark bottom -->
+      <text x="600" y="630" font-family="Georgia,serif" font-size="36" font-style="italic" fill="rgba(253,250,247,0.15)" text-anchor="middle" letter-spacing="12">MIRCO</text>
+    </svg>
+  </div>
+
+  <section class="project-process">
+    <p class="section-label reveal">Process</p>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <p class="step-num">01</p><h4 class="step-title">Research</h4>
+        <p class="step-desc">Competitor audit of character-led lifestyle brands. Referenced Sanrio, Line Friends, and Kakao Friends — identifying where current players fall short in system scalability.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.08s">
+        <p class="step-num">02</p><h4 class="step-title">Architecture</h4>
+        <p class="step-desc">Designed the Bubble Planet taxonomy: each planet represents a product category. Defined visual rules — shape, colour temperature, expression vocabulary — for each planetary tier.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.16s">
+        <p class="step-num">03</p><h4 class="step-title">Characters</h4>
+        <p class="step-desc">Developed 6 mascots across 3 planetary categories. Each mascot underwent 8–10 rounds of refinement balancing cuteness, distinctiveness, and cross-application versatility.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.24s">
+        <p class="step-num">04</p><h4 class="step-title">System</h4>
+        <p class="step-desc">Compiled brand guidelines, packaging templates, digital asset library, and a usage handbook covering logo clear space, colour ratios, and character pairing rules.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-deliverables">
+    <p class="section-label reveal">Deliverables</p>
+    <div class="deliverables-grid reveal">
+      <!-- Logo system -->
+      <div class="vis-block" style="background:#6E6A65">
+        <svg viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
+          <rect width="560" height="560" fill="#6E6A65"/>
+          <text x="280" y="44" font-family="Arial" font-size="9" fill="rgba(253,250,247,0.4)" letter-spacing="2" text-anchor="middle">LOGO SYSTEM</text>
+          <!-- Primary logomark -->
+          <circle cx="280" cy="200" r="100" fill="#8A8178" stroke="rgba(253,250,247,0.2)" stroke-width="1.5"/>
+          <circle cx="280" cy="200" r="70" fill="#7A7570"/>
+          <text x="280" y="192" font-family="Georgia,serif" font-size="24" font-style="italic" fill="rgba(253,250,247,0.9)" text-anchor="middle" letter-spacing="3">Mir</text>
+          <text x="280" y="218" font-family="Georgia,serif" font-size="24" font-style="italic" fill="rgba(253,250,247,0.9)" text-anchor="middle" letter-spacing="3">&amp; Co.</text>
+          <!-- Wordmark versions below -->
+          <rect x="80" y="340" width="160" height="50" rx="25" fill="#8A8178" stroke="rgba(253,250,247,0.2)" stroke-width="1"/>
+          <text x="160" y="372" font-family="Georgia,serif" font-size="16" font-style="italic" fill="rgba(253,250,247,0.85)" text-anchor="middle" letter-spacing="1">MIRCO</text>
+          <rect x="310" y="340" width="170" height="50" rx="4" fill="none" stroke="rgba(253,250,247,0.25)" stroke-width="1"/>
+          <text x="395" y="372" font-family="Georgia,serif" font-size="16" font-style="italic" fill="rgba(253,250,247,0.6)" text-anchor="middle" letter-spacing="1">MIRCO</text>
+          <!-- Divider -->
+          <line x1="80" y1="420" x2="480" y2="420" stroke="rgba(253,250,247,0.08)" stroke-width="1"/>
+          <text x="280" y="460" font-family="Georgia,serif" font-size="11" font-style="italic" fill="rgba(253,250,247,0.3)" text-anchor="middle" letter-spacing="8">BUBBLE PLANET</text>
+          <text x="280" y="490" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.2)" text-anchor="middle" letter-spacing="3">MIR &amp; CO. — EST. 2024</text>
+        </svg>
+      </div>
+      <!-- Mascot chars -->
+      <div class="vis-block" style="background:#9A9590">
+        <svg viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
+          <rect width="560" height="560" fill="#9A9590"/>
+          <text x="280" y="44" font-family="Arial" font-size="9" fill="rgba(253,250,247,0.4)" letter-spacing="2" text-anchor="middle">MASCOT CHARACTERS</text>
+          <!-- 6 characters in grid -->
+          <!-- Row 1 -->
+          <g transform="translate(110,100)">
+            <circle cx="0" cy="0" r="60" fill="#C9A89A" opacity="0.9"/>
+            <circle cx="-15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/><circle cx="15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/>
+            <path d="M-15,10 Q0,22 15,10" stroke="rgba(253,250,247,0.8)" stroke-width="2" fill="none"/>
+          </g>
+          <g transform="translate(280,100)">
+            <circle cx="0" cy="0" r="60" fill="#C4A882" opacity="0.9"/>
+            <circle cx="-15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/><circle cx="15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/>
+            <path d="M-15,10 Q0,18 15,10" stroke="rgba(253,250,247,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M-20,-30 Q0,-48 20,-30" fill="none" stroke="rgba(253,250,247,0.5)" stroke-width="2"/>
+          </g>
+          <g transform="translate(450,100)">
+            <circle cx="0" cy="0" r="60" fill="#A0A8C8" opacity="0.9"/>
+            <circle cx="-15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/><circle cx="15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/>
+            <path d="M-10,12 Q0,8 10,12" stroke="rgba(253,250,247,0.8)" stroke-width="2" fill="none"/>
+          </g>
+          <!-- Row 2 -->
+          <g transform="translate(110,310)">
+            <circle cx="0" cy="0" r="60" fill="#B8C8A0" opacity="0.9"/>
+            <circle cx="-15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/><circle cx="15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/>
+            <path d="M-12,12 Q0,20 12,12" stroke="rgba(253,250,247,0.8)" stroke-width="2" fill="none"/>
+          </g>
+          <g transform="translate(280,310)">
+            <circle cx="0" cy="0" r="60" fill="#D8B8C0" opacity="0.9"/>
+            <circle cx="-15" cy="-10" r="8" fill="rgba(253,250,247,0.85)"/><circle cx="15" cy="-10" r="8" fill="rgba(253,250,247,0.85)"/>
+            <path d="M-15,12 Q0,24 15,12" stroke="rgba(253,250,247,0.85)" stroke-width="2.5" fill="none"/>
+          </g>
+          <g transform="translate(450,310)">
+            <circle cx="0" cy="0" r="60" fill="#D0C8A8" opacity="0.9"/>
+            <circle cx="-15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/><circle cx="15" cy="-8" r="7" fill="rgba(253,250,247,0.8)"/>
+            <path d="M-8,14 Q0,10 8,14" stroke="rgba(253,250,247,0.8)" stroke-width="2" fill="none"/>
+          </g>
+          <!-- Labels -->
+          <text x="110" y="184" font-family="Georgia,serif" font-size="9" font-style="italic" fill="rgba(253,250,247,0.45)" text-anchor="middle">Rosie</text>
+          <text x="280" y="184" font-family="Georgia,serif" font-size="9" font-style="italic" fill="rgba(253,250,247,0.45)" text-anchor="middle">Goldie</text>
+          <text x="450" y="184" font-family="Georgia,serif" font-size="9" font-style="italic" fill="rgba(253,250,247,0.45)" text-anchor="middle">Blu</text>
+          <text x="110" y="394" font-family="Georgia,serif" font-size="9" font-style="italic" fill="rgba(253,250,247,0.45)" text-anchor="middle">Leaf</text>
+          <text x="280" y="394" font-family="Georgia,serif" font-size="9" font-style="italic" fill="rgba(253,250,247,0.45)" text-anchor="middle">Mochi</text>
+          <text x="450" y="394" font-family="Georgia,serif" font-size="9" font-style="italic" fill="rgba(253,250,247,0.45)" text-anchor="middle">Sandy</text>
+          <!-- Grid dots -->
+          <line x1="195" y1="60" x2="195" y2="500" stroke="rgba(253,250,247,0.07)" stroke-width="1"/>
+          <line x1="365" y1="60" x2="365" y2="500" stroke="rgba(253,250,247,0.07)" stroke-width="1"/>
+          <line x1="80" y1="210" x2="520" y2="210" stroke="rgba(253,250,247,0.07)" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <!-- Brand guideline spread -->
+    <div class="vis-block reveal" style="margin-top:20px; background:#ADA9A4">
+      <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1200" height="420" fill="#ADA9A4"/>
+        <text x="600" y="36" font-family="Arial" font-size="10" fill="rgba(253,250,247,0.4)" letter-spacing="3" text-anchor="middle">BRAND GUIDELINE</text>
+        <!-- Two page spread -->
+        <rect x="60" y="70" width="500" height="310" rx="2" fill="#B8B2AA"/>
+        <rect x="640" y="70" width="500" height="310" rx="2" fill="#C0BAB2"/>
+        <!-- Left page — colour system -->
+        <text x="100" y="104" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.4)" letter-spacing="2">COLOUR SYSTEM</text>
+        <circle cx="120" cy="150" r="36" fill="#C9A89A"/>
+        <circle cx="200" cy="150" r="36" fill="#C4A882"/>
+        <circle cx="280" cy="150" r="36" fill="#A0A8C8"/>
+        <circle cx="360" cy="150" r="36" fill="#B8C8A0"/>
+        <circle cx="440" cy="150" r="36" fill="#D8B8C0"/>
+        <text x="120" y="210" font-family="Arial" font-size="7" fill="rgba(253,250,247,0.5)" text-anchor="middle">Rose</text>
+        <text x="200" y="210" font-family="Arial" font-size="7" fill="rgba(253,250,247,0.5)" text-anchor="middle">Gold</text>
+        <text x="280" y="210" font-family="Arial" font-size="7" fill="rgba(253,250,247,0.5)" text-anchor="middle">Sky</text>
+        <text x="360" y="210" font-family="Arial" font-size="7" fill="rgba(253,250,247,0.5)" text-anchor="middle">Leaf</text>
+        <text x="440" y="210" font-family="Arial" font-size="7" fill="rgba(253,250,247,0.5)" text-anchor="middle">Blush</text>
+        <line x1="100" y1="240" x2="520" y2="240" stroke="rgba(253,250,247,0.1)" stroke-width="1"/>
+        <text x="100" y="268" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.4)" letter-spacing="2">TYPOGRAPHY</text>
+        <text x="100" y="300" font-family="Georgia,serif" font-size="28" font-style="italic" fill="rgba(253,250,247,0.6)">Cormorant</text>
+        <text x="100" y="330" font-family="Arial" font-size="16" fill="rgba(253,250,247,0.4)" letter-spacing="3">DM SANS</text>
+        <!-- Right page — logo usage -->
+        <text x="680" y="104" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.4)" letter-spacing="2">LOGO USAGE</text>
+        <circle cx="810" cy="200" r="76" fill="#9A9590"/>
+        <text x="810" y="192" font-family="Georgia,serif" font-size="20" font-style="italic" fill="rgba(253,250,247,0.85)" text-anchor="middle">Mir</text>
+        <text x="810" y="216" font-family="Georgia,serif" font-size="20" font-style="italic" fill="rgba(253,250,247,0.85)" text-anchor="middle">&amp; Co.</text>
+        <!-- Clear space lines -->
+        <rect x="710" y="100" width="200" height="204" fill="none" stroke="rgba(253,250,247,0.12)" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Exclusion zone arrows -->
+        <text x="990" y="268" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.3)" letter-spacing="1">Do not distort.</text>
+        <text x="990" y="284" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.3)" letter-spacing="1">Do not recolour.</text>
+        <text x="990" y="300" font-family="Arial" font-size="8" fill="rgba(253,250,247,0.3)" letter-spacing="1">Do not crop.</text>
+      </svg>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="sloweat.html"><span>←</span><span class="nav-project-name">SLOWEAT</span></a>
+    <a href="dreamdepot.html" style="text-align:right">
+      <span class="nav-project-name">DreamDepot</span><span>→</span>
+    </a>
+  </nav>
+  <script src="project.js"></script>
+</body>
+</html>
