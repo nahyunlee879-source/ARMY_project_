@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { RoadmapData, Phase } from '@/lib/types';
 import { loadData, saveData, exportData, resetData } from '@/lib/storage';
 import PhaseNav from '@/components/PhaseNav';
 import PhasePanel from '@/components/PhasePanel';
+import Toast from '@/components/Toast';
 
-/* ── Spinner shown before hydration ──────────────────────── */
+/* ── Loader shown before hydration ───────────────────────── */
 function Loader() {
   return (
     <div className="min-h-screen bg-ivory dark:bg-ink flex items-center justify-center">
@@ -24,6 +25,16 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [resetConfirm, setResetConfirm] = useState(false);
 
+  /* Auto-save indicator */
+  const [saved, setSaved] = useState(false);
+  const savedTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  const flashSaved = useCallback(() => {
+    setSaved(true);
+    clearTimeout(savedTimer.current);
+    savedTimer.current = setTimeout(() => setSaved(false), 2200);
+  }, []);
+
   /* Load from localStorage after mount */
   useEffect(() => {
     setData(loadData());
@@ -36,12 +47,14 @@ export default function Home() {
     document.documentElement.classList.toggle('dark', data.darkMode);
   }, [data?.darkMode]);
 
+  /* ── Updaters ─────────────────────────────────── */
   const update = useCallback(
     (next: RoadmapData) => {
       setData(next);
       saveData(next);
+      flashSaved();
     },
-    []
+    [flashSaved]
   );
 
   const updatePhase = useCallback(
@@ -53,8 +66,9 @@ export default function Home() {
         saveData(next);
         return next;
       });
+      flashSaved();
     },
-    []
+    [flashSaved]
   );
 
   const handlePhaseChange = (i: number) => {
@@ -88,7 +102,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-ink/8 dark:border-ivory/8 bg-ivory/92 dark:bg-ink/92 backdrop-blur-md">
 
         {/* Top bar */}
-        <div className="flex items-center justify-between px-6 h-13 gap-4 py-3">
+        <div className="flex items-center justify-between px-6 py-3 gap-4">
           {/* Brand */}
           <div className="flex items-baseline gap-3">
             <span className="font-serif italic text-xl leading-none text-ink dark:text-ivory">
@@ -99,36 +113,36 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Global progress pip */}
-          {totalMilestones > 0 && (
-            <div className="hidden md:flex items-center gap-2 text-[10px] text-muted font-light">
-              <div className="w-24 h-px bg-ink/10 dark:bg-ivory/10 relative overflow-hidden">
-                <div
-                  className="absolute inset-y-0 left-0 bg-gold"
-                  style={{
-                    width: `${Math.round((doneMilestones / totalMilestones) * 100)}%`,
-                  }}
-                />
+          {/* Centre: global progress + auto-save indicator */}
+          <div className="hidden md:flex items-center gap-4">
+            {totalMilestones > 0 && (
+              <div className="flex items-center gap-2 text-[10px] text-muted font-light">
+                <div className="w-24 h-px bg-ink/10 dark:bg-ivory/10 relative overflow-hidden">
+                  <div
+                    className="absolute inset-y-0 left-0 bg-gold transition-all duration-500"
+                    style={{ width: `${Math.round((doneMilestones / totalMilestones) * 100)}%` }}
+                  />
+                </div>
+                <span className="tabular-nums">{doneMilestones}/{totalMilestones}</span>
               </div>
-              <span className="tabular-nums">
-                {doneMilestones}/{totalMilestones}
-              </span>
-            </div>
-          )}
+            )}
+
+            {/* Auto-save indicator */}
+            <span
+              className={`
+                text-[10px] font-light text-sage flex items-center gap-1
+                transition-all duration-500
+                ${saved ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'}
+              `}
+              aria-live="polite"
+            >
+              <span className="w-1 h-1 rounded-full bg-sage inline-block" />
+              저장됨
+            </span>
+          </div>
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            {data.lastUpdated && (
-              <span className="text-[10px] text-muted/50 font-light hidden lg:inline tabular-nums">
-                {new Date(data.lastUpdated).toLocaleDateString('ko-KR', {
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </span>
-            )}
-
             <button
               onClick={() => exportData(data)}
               className="text-[11px] border border-ink/15 dark:border-ivory/15 px-3 py-1.5 font-light tracking-wide hover:border-gold hover:text-gold transition-colors"
@@ -170,7 +184,7 @@ export default function Home() {
       {/* ── Main content ─────────────────────────── */}
       <main className="max-w-5xl mx-auto px-6 py-14">
         <PhasePanel
-          key={activePhase}                          /* remount → triggers fade-up */
+          key={activePhase}               /* remount on tab switch → triggers fade-up */
           phase={data.phases[activePhase]}
           phaseIndex={activePhase}
           onUpdate={(p) => updatePhase(activePhase, p)}
@@ -186,6 +200,9 @@ export default function Home() {
           Nayul · 나연 · 2004
         </p>
       </footer>
+
+      {/* ── First-visit welcome toast ─────────────── */}
+      <Toast />
     </div>
   );
 }

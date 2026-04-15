@@ -38,6 +38,10 @@ export default function MilestoneList({ milestones, onUpdate }: MilestoneListPro
 
   const add = () => onUpdate([...milestones, newMilestone()]);
 
+  // Split into pending / done — completed items sink to the bottom visually
+  const pending = milestones.filter((m) => !m.completed);
+  const done = milestones.filter((m) => m.completed);
+
   if (milestones.length === 0) {
     return (
       <div className="mb-10">
@@ -57,11 +61,34 @@ export default function MilestoneList({ milestones, onUpdate }: MilestoneListPro
       <SectionHeading milestones={milestones} />
 
       <div className="border border-ink/8 dark:border-ivory/8">
-        {milestones.map((m, i) => (
+        {/* ── Pending milestones ──────────────────── */}
+        {pending.map((m, i) => (
           <MilestoneRow
             key={m.id}
             milestone={m}
-            isLast={i === milestones.length - 1}
+            isLast={i === pending.length - 1 && done.length === 0}
+            onPatch={(u) => patch(m.id, u)}
+            onDelete={() => remove(m.id)}
+          />
+        ))}
+
+        {/* ── Divider between pending / done ──────── */}
+        {pending.length > 0 && done.length > 0 && (
+          <div className="flex items-center gap-3 px-4 py-1.5 border-t border-b border-sage/12 dark:border-sage/10 bg-sage/[0.03]">
+            <span className="w-1.5 h-1.5 rounded-full bg-sage flex-shrink-0" />
+            <span className="text-[10px] uppercase tracking-widest text-sage/50 font-light">
+              완료 · {done.length}
+            </span>
+            <span className="flex-1 h-px bg-sage/10" />
+          </div>
+        )}
+
+        {/* ── Completed milestones ────────────────── */}
+        {done.map((m, i) => (
+          <MilestoneRow
+            key={m.id}
+            milestone={m}
+            isLast={i === done.length - 1}
             onPatch={(u) => patch(m.id, u)}
             onDelete={() => remove(m.id)}
           />
@@ -106,18 +133,18 @@ function MilestoneRow({ milestone: m, isLast, onPatch, onDelete }: RowProps) {
         group flex items-start gap-3 px-4 py-3
         hover:bg-gold/[0.03] dark:hover:bg-gold/[0.05] transition-colors
         ${!isLast ? 'border-b border-ink/5 dark:border-ivory/5' : ''}
-        ${m.completed ? 'opacity-50' : ''}
+        ${m.completed ? 'opacity-45' : ''}
       `}
     >
-      {/* Checkbox */}
+      {/* Checkbox — green dot when done */}
       <button
         onClick={() => onPatch({ completed: !m.completed })}
         className={`
           mt-0.5 w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center
-          transition-all duration-200
+          transition-all duration-300
           ${
             m.completed
-              ? 'bg-sage border-sage'
+              ? 'bg-sage border-sage shadow-[0_0_0_3px_rgba(122,158,138,0.15)]'
               : 'border-muted/30 hover:border-gold dark:border-ivory/20'
           }
         `}
@@ -143,7 +170,9 @@ function MilestoneRow({ milestone: m, isLast, onPatch, onDelete }: RowProps) {
         <EditableText
           value={m.text}
           onChange={(text) => onPatch({ text })}
-          className={`text-sm font-light leading-snug ${m.completed ? 'line-through decoration-muted/40' : ''}`}
+          className={`text-sm font-light leading-snug ${
+            m.completed ? 'line-through decoration-muted/30' : ''
+          }`}
           placeholder="마일스톤 내용"
         />
       </div>
@@ -160,7 +189,11 @@ function MilestoneRow({ milestone: m, isLast, onPatch, onDelete }: RowProps) {
           `}
         >
           {TAGS.map((t) => (
-            <option key={t} value={t} className="bg-ivory dark:bg-ink text-ink dark:text-ivory">
+            <option
+              key={t}
+              value={t}
+              className="bg-ivory dark:bg-ink text-ink dark:text-ivory"
+            >
               {t}
             </option>
           ))}

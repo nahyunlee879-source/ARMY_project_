@@ -36,7 +36,7 @@ export default function NotesArea({ value, onChange }: NotesAreaProps) {
           w-full bg-transparent border border-ink/10 dark:border-ivory/10
           p-4 text-sm font-light leading-relaxed resize-none
           focus:outline-none focus:border-gold/40
-          placeholder:text-muted/30
+          placeholder:text-muted/30 placeholder:italic
           transition-colors
         "
       />
